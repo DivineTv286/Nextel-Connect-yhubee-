@@ -116,7 +116,7 @@
             padding: 44px 40px;
             box-shadow: 0 30px 100px rgba(0,0,0,0.5);
         }
-.register-badge {
+        .register-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
@@ -261,7 +261,7 @@
             font-size: 1.1rem;
             flex-shrink: 0;
         }
-      .info-feature-text strong {
+        .info-feature-text strong {
             display: block;
             color: #fff;
             font-size: 0.95rem;
@@ -506,7 +506,6 @@
     </div>
 </main>
 
-<!-- ── Footer ── -->
 <footer id="footer">
     <div class="container">
         <div class="row gy-3 align-items-center">
@@ -546,7 +545,6 @@
     </div>
 </footer>
 
-<!-- Firebase SDK -->
 <script type="module">
     import { initializeApp }       from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getFirestore, doc, setDoc, getDoc, serverTimestamp }
@@ -609,10 +607,10 @@
         const phone       = document.getElementById("phone").value.trim();
         const password    = document.getElementById("password").value.trim();
         const amount      = Number(selectedOpt.dataset.amount);
-        const reference   = NXT-${Date.now()}-${Math.random().toString(36).slice(2,7).toUpperCase()};
+        const reference   = `NXT-${Date.now()}-${Math.random().toString(36).slice(2,7).toUpperCase()}`;
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!fullName  !username  !email  !phone  !password || !amount) {
+        if (!fullName || !username || !email || !phone || !password || !amount) {
             showError("Please fill in all fields before proceeding.");
             return;
         }
@@ -620,7 +618,7 @@
             showError("Please enter a valid email address.");
             return;
         }
-      setBtn('<i class="fa-solid fa-spinner fa-spin me-2"></i>Creating payment account…', true);
+        setBtn('<i class="fa-solid fa-spinner fa-spin me-2"></i>Creating payment account…', true);
 
         const nameParts = fullName.split(" ");
         const firstName = nameParts[0];
@@ -645,7 +643,7 @@
                 headers: { "Content-Type": "application/json" },
                 body:    JSON.stringify({
                     reference, firstName, lastName, email, phone,
-                    webhookUrl: ${window.location.origin}/api/aspfiy-webhook
+                    webhookUrl: `${window.location.origin}/api/aspfiy-webhook`
                 })
             });
 
@@ -657,8 +655,8 @@
                 return;
             }
 
-            const accountNumber = data.data?.account?.account_number  data.accountNumber  data.account_number || "";
-            const bankName      = data.data?.account?.bank_name       data.bankName       data.bank_name      || "Paga";
+            const accountNumber = data.data?.account?.account_number || data.accountNumber || data.account_number || "";
+            const bankName      = data.data?.account?.bank_name      || data.bankName      || data.bank_name      || "Paga";
             const accountName   = data.data?.account?.account_name   || "";
 
             if (!accountNumber) {
@@ -667,7 +665,7 @@
                 return;
             }
 
-            // Pass payment details to payment page via sessionStorage
+            // Pass payment details to dashboard page via sessionStorage
             sessionStorage.setItem("nxt_payment", JSON.stringify({
                 reference, accountNumber, bankName, accountName,
                 amount, fullName, email,
@@ -675,7 +673,7 @@
             }));
 
             setBtn('<i class="fa-solid fa-spinner fa-spin me-2"></i>Redirecting…', true);
-            window.location.href = "payment.html";
+            window.location.href = "dashboard.html";
 
         } catch (err) {
             console.error("Registration error:", err);
@@ -685,7 +683,6 @@
     });
 </script>
 
-<!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
