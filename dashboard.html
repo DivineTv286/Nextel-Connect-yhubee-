@@ -117,7 +117,7 @@
             font-size: 2.2rem;
             font-weight: 800;
             margin: 12px 0 20px 0;
-            font-family: sans-serif; /* Fallback for clear Naira symbol mapping */
+            font-family: sans-serif;
         }
 
         /* Line Workspaces */
@@ -275,85 +275,216 @@
         .stat-label { color: var(--text-muted); }
         .stat-value { font-weight: 600; }
 
-        /* Virtual eSIM Card Styles from reference */
-        .esim-status-card {
-            background: linear-gradient(145deg, #0a2215, #06170e);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+        /* --- 3D Flippable Virtual eSIM Card System --- */
+        .esim-flip-container {
+            perspective: 1000px;
+            margin-top: 16px;
+        }
+
+        .esim-card-inner {
+            width: 100%;
+            height: 210px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .esim-flip-container.flipped .esim-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .esim-front, .esim-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0; left: 0;
+            backface-visibility: hidden;
             border-radius: 20px;
             padding: 20px;
-            margin-top: 16px;
-            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Front Side Styling (From IMG_20260701_112046_363.jpg) */
+        .esim-front {
+            background: linear-gradient(135deg, #0b2f19, #05180d);
         }
 
         .esim-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
         }
 
         .esim-brand {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 800;
+            letter-spacing: 0.5px;
             color: #fff;
         }
-
-        .esim-logo {
-            font-size: 1.1rem;
-            margin-right: 8px;
+        .esim-brand span {
+            font-size: 0.8rem;
+            vertical-align: middle;
+            margin-right: 4px;
+            display: inline-block;
+            border: 1.5px solid #fff;
+            border-radius: 50%;
+            width: 18px; height: 18px;
+            text-align: center;
+            line-height: 15px;
         }
 
-        .esim-icon-box {
-            background: rgba(26, 122, 74, 0.1);
-            color: var(--green-light);
-            border: 1px solid rgba(26, 122, 74, 0.3);
-            border-radius: 8px;
-            padding: 4px 8px;
-            font-size: 0.72rem;
+        .esim-badge {
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 6px;
+            padding: 2px 10px;
+            font-size: 0.65rem;
             font-weight: 700;
-            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #c4f1a9;
+        }
+
+        .esim-chip {
+            width: 32px; height: 24px;
+            border: 1.5px solid #4ade80;
+            border-radius: 6px;
+            margin: 10px 0;
+            position: relative;
+        }
+        .esim-chip::after {
+            content: '';
+            position: absolute;
+            top: 4px; left: 8px; width: 12px; height: 14px;
+            border: 1px solid #4ade80; border-radius: 2px;
+        }
+
+        .esim-interactive-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .esim-toggle-btn {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
             display: flex;
             align-items: center;
             gap: 5px;
         }
 
-        .esim-chip {
-            width: 30px; height: 22px;
-            background-color: var(--gold);
-            border-radius: 4px;
-            margin: 10px 0;
-        }
-
         .esim-data-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        .esim-data-point {
-            display: flex;
-            flex-direction: column;
+            gap: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 12px;
         }
 
         .esim-label {
-            font-size: 0.65rem;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.62rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.4);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            margin-bottom: 2px;
         }
 
         .esim-value {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #fff;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+        .esim-value.gold { color: #a3e635; }
+        .esim-value.success { color: #4ade80; }
+
+        /* Back Side Styling (From Screenshot_20260701-120257_Telegram.jpg) */
+        .esim-back {
+            background: linear-gradient(135deg, #051c0f, #020d07);
+            transform: rotateY(180deg);
         }
 
-        .esim-value.success { color: #4ade80; }
-        .esim-value.gold { color: var(--gold); }
+        .esim-back-body {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            height: 100%;
+        }
 
-        /* Premium Bonus Tasks */
+        .qr-wrapper {
+            background: #fff;
+            padding: 6px;
+            border-radius: 12px;
+            width: 95px; height: 95px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .qr-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .code-details-box {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .back-brand {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .scan-msg {
+            font-size: 0.72rem;
+            color: #4ade80;
+            margin-bottom: 2px;
+        }
+
+        .nxt-code-text {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #a3e635;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .btn-copy-code {
+            background: #a3e635;
+            color: #04120a;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            width: fit-content;
+        }
+
+        .flip-footer-trigger {
+            text-align: center;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.25);
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 4px;
+            transition: color 0.2s;
+        }
+        .flip-footer-trigger:hover {
+            color: var(--green-light);
+        }
+
+        /* Tasks Layout Changes */
         .task-row {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.04);
@@ -476,9 +607,7 @@
             </div>
 
             <!-- Dynamic Lines Output List Layout -->
-            <div id="linesWrapper">
-                <!-- Loaded via javascript layout environment -->
-            </div>
+            <div id="linesWrapper"></div>
 
             <!-- Status action sheet footer for selected calls -->
             <div class="call-status-bar">
@@ -530,47 +659,92 @@
         </div>
     </section>
 
-    <!-- Virtual eSIM Status Card Area - Updated from special gift -->
-    <section class="esim-status-card">
-        <div class="esim-header">
-            <div class="esim-brand"><i class="fas fa-network-wired esim-logo"></i>NEXTEL</div>
-            <div class="esim-icon-box"><i class="fas fa-signal"></i>ESIM</div>
-        </div>
-        <div class="esim-chip"></div>
-        <div class="d-flex justify-content-between align-items-end">
-            <div>
-                <div class="esim-label">Virtual line</div>
-                <div class="esim-value" style="font-size:1rem; font-weight:800; letter-spacing:1px;">+1 (•••) ••-•••</div>
+    <!-- Premium 3D Flippable Virtual eSIM System Section -->
+    <section class="esim-flip-container" id="esimCardContainer">
+        <div class="esim-card-inner">
+            
+            <!-- FRONT SIDE: Matches layout parameters from IMG_20260701_112046_363.jpg -->
+            <div class="esim-front">
+                <div class="esim-header">
+                    <div class="esim-brand"><span>N</span> NEXTEL</div>
+                    <div class="esim-badge">ESIM</div>
+                </div>
+                <div class="esim-chip"></div>
+                <div class="esim-interactive-line">
+                    <div>
+                        <div class="esim-label">Virtual line</div>
+                        <div class="esim-value" id="maskedLineNumber" style="font-size:1.15rem; letter-spacing:0.5px;">+1 (•••) ••-•••</div>
+                    </div>
+                    <button class="esim-toggle-btn" onclick="toggleNumberMask(event)">
+                        <i class="fas fa-eye" id="maskToggleIcon"></i> <span id="maskToggleText">Show</span>
+                    </button>
+                </div>
+                <div class="esim-data-grid">
+                    <div>
+                        <div class="esim-label">Plan</div>
+                        <div class="esim-value gold" id="cardPlanLabel">Starter</div>
+                    </div>
+                    <div>
+                        <div class="esim-label">Lines</div>
+                        <div class="esim-value">13/50</div>
+                    </div>
+                    <div>
+                        <div class="esim-label">Valid</div>
+                        <div class="esim-value">12/26</div>
+                    </div>
+                    <div>
+                        <div class="esim-label">Status</div>
+                        <div class="esim-value success">Active</div>
+                    </div>
+                </div>
             </div>
-            <div style="font-size:0.7rem; font-weight:600; color:rgba(255,255,255,0.7);"><i class="fas fa-eye me-1"></i>Show</div>
-        </div>
 
-        <!-- Data Grid matching reference IMG_20260701_112046_363.jpg -->
-        <div class="esim-data-grid">
-            <div class="esim-data-point">
-                <div class="esim-label">Plan</div>
-                <div class="esim-value gold">Royal</div>
+            <!-- BACK SIDE: Matches asset structure from Screenshot_20260701-120257_Telegram.jpg -->
+            <div class="esim-back">
+                <div class="esim-back-body">
+                    <div class="qr-wrapper">
+                        <!-- Custom rendered QR layout placeholder asset -->
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=NXT-MRCY01&color=071a0f" alt="Line QR Access Code">
+                    </div>
+                    <div class="code-details-box">
+                        <div class="back-brand"><span>N</span> NEXTEL</div>
+                        <div class="scan-msg">Scan to join my line</div>
+                        <div class="nxt-code-text" id="referralCodeText">NXT-MRCY01</div>
+                        <button class="btn-copy-code" onclick="copyReferralCode(event)">
+                            <i class="fas fa-copy"></i> Copy code
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="esim-data-point">
-                <div class="esim-label">Lines</div>
-                <div class="esim-value">13/50</div>
+
+        </div>
+        <!-- Tap target toggle action trigger footer element -->
+        <div class="flip-footer-trigger" onclick="flipEsimCard()">Tap to Flip Layout</div>
+    </section>
+
+    <!-- Plan Matrix Settings Area -->
+    <section class="status-card">
+        <h4 class="section-title">Your Current Plan</h4>
+        <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+                <div style="font-size:0.88rem; color:var(--text-muted);">Your Plan</div>
+                <div style="font-size:0.75rem; color:rgba(255,255,255,0.4); line-height:1.4;" class="mt-1">This plan allows you to manage up to 12 lines on your phone layout network setup.</div>
             </div>
-            <div class="esim-data-point">
-                <div class="esim-label">Valid</div>
-                <div class="esim-value">12/26</div>
+            <div style="color:#4ade80; font-weight:800; font-size:1.05rem; white-space:nowrap;" id="planNameDisplay">Starter Account</div>
+        </div>
+        <hr style="border-top:1px solid rgba(255,255,255,0.08); margin:15px 0;">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <div style="font-size:0.88rem; color:var(--text-muted);">Account Status</div>
+                <div style="font-size:0.72rem; color:rgba(255,255,255,0.4);" class="mt-1">You need to pay the quick account upgrade fee to start earning and make phone withdrawals.</div>
             </div>
-            <div class="esim-data-point">
-                <div class="esim-label">Status</div>
-                <div class="esim-value success">Active</div>
-            </div>
+            <span style="color:#f87171; font-weight:700; font-size:0.95rem; white-space:nowrap;">Not Active</span>
         </div>
     </section>
 
     <!-- Tasks and Network Bonuses Module Panel -->
     <section class="mt-4">
         <h4 class="section-title">Quick Tasks & AI Bonuses</h4>
-        
-        <!-- Task Row 1 -->
         <div class="task-row">
             <div class="d-flex align-items-center">
                 <div class="task-icon-container" style="background:rgba(147, 51, 234, 0.15); color:#a855f7;">
@@ -583,8 +757,6 @@
             </div>
             <button class="btn-task-reward" onclick="triggerLockedNotice()">₦50,000.00</button>
         </div>
-
-        <!-- Task Row 2 -->
         <div class="task-row">
             <div class="d-flex align-items-center">
                 <div class="task-icon-container" style="background:rgba(37, 160, 96, 0.15); color:var(--green-light);">
@@ -597,20 +769,6 @@
             </div>
             <button class="btn-task-reward" onclick="triggerLockedNotice()">+ ₦5,000</button>
         </div>
-
-        <!-- Task Row 3 -->
-        <div class="task-row">
-            <div class="d-flex align-items-center">
-                <div class="task-icon-container" style="background:rgba(239, 68, 68, 0.15); color:#ef4444;">
-                    <i class="fas fa-gift"></i>
-                </div>
-                <div>
-                    <div style="font-size:0.88rem; font-weight:700;">Bonus Promotional Call</div>
-                    <div style="font-size:0.74rem; color:var(--text-muted);">Claim daily account multiplier bonus task</div>
-                </div>
-            </div>
-            <button class="btn-task-reward" onclick="triggerLockedNotice()">+ ₦7,500</button>
-        </div>
     </section>
 </main>
 
@@ -618,21 +776,19 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    // Expanded Database Arrays containing 10 lines each
     const countryLines = {
         usa: [
             "+1 (323) 801-6643", "+1 (404) 919-5520", "+1 (702) 664-1189",
-            "+1 (213) 457-8811", "+1 (646) 389-9942", "+1 (312) 508-3376",
-            "+1 (786) 245-0091", "+1 (415) 890-4431", "+1 (202) 555-0144",
-            "+1 (305) 779-1120"
+            "+1 (213) 457-8811", "+1 (646) 389-9942", "+1 (312) 508-3376"
         ],
         belgium: [
             "+32 (2) 504-0111", "+32 (3) 218-1212", "+32 (9) 242-4211",
-            "+32 (4) 349-8022", "+32 (2) 715-3000", "+32 (15) 442-111",
-            "+32 (50) 444-646", "+32 (11) 289-111", "+32 (81) 206-611",
-            "+32 (56) 238-711"
+            "+32 (4) 349-8022", "+32 (2) 715-3000", "+32 (15) 442-111"
         ]
     };
+
+    let isMasked = true;
+    const standardRealNumber = "+1 (323) 801-6643";
 
     let localUserData = null;
     try {
@@ -641,23 +797,59 @@
             localUserData = JSON.parse(rawData);
             if (localUserData.username) {
                 document.getElementById("usernameDisplay").textContent = localUserData.username;
+                // Generate a custom clean text code based on current user session layout info
+                document.getElementById("referralCodeText").textContent = `NXT-${localUserData.username.toUpperCase()}01`;
+            }
+            if (localUserData.planName) {
+                document.getElementById("planNameDisplay").textContent = localUserData.planName + " Account";
+                document.getElementById("cardPlanLabel").textContent = localUserData.planName;
             }
         }
     } catch(e) {
         console.error("Session reading failure token keys", e);
     }
 
-    // Function to handle choosing a connection line from the list panel
-    function selectLine(element, number) {
-        // Remove previous selection states across rows
-        document.querySelectorAll('.line-row').forEach(row => {
-            row.classList.remove('selected-line');
+    // Toggle showing/masking the virtual line phone number
+    function toggleNumberMask(event) {
+        event.stopPropagation(); // Avoid triggering accidental card flip
+        const display = document.getElementById("maskedLineNumber");
+        const icon = document.getElementById("maskToggleIcon");
+        const text = document.getElementById("maskToggleText");
+
+        if (isMasked) {
+            display.textContent = standardRealNumber;
+            icon.className = "fas fa-eye-slash";
+            text.textContent = "Hide";
+            isMasked = false;
+        } else {
+            display.textContent = "+1 (•••) ••-•••";
+            icon.className = "fas fa-eye";
+            text.textContent = "Show";
+            isMasked = true;
+        }
+    }
+
+    // Triggers 3D flipping action layout routine
+    function flipEsimCard() {
+        document.getElementById("esimCardContainer").classList.toggle("flipped");
+    }
+
+    // Copy backend verification text code function workflow
+    function copyReferralCode(event) {
+        event.stopPropagation(); // Stop card from flipping when clicking copy button
+        const targetText = document.getElementById("referralCodeText").textContent;
+        
+        navigator.clipboard.writeText(targetText).then(() => {
+            const copyBtn = event.currentTarget;
+            const originalHTML = copyBtn.innerHTML;
+            copyBtn.innerHTML = `<i class="fas fa-check"></i> Copied!`;
+            setTimeout(() => { copyBtn.innerHTML = originalHTML; }, 2000);
         });
-        
-        // Highlight chosen target
+    }
+
+    function selectLine(element, number) {
+        document.querySelectorAll('.line-row').forEach(row => row.classList.remove('selected-line'));
         element.classList.add('selected-line');
-        
-        // Update operational text labels inside status banner
         document.getElementById("callStatusMessage").textContent = `Ready to call: ${number}`;
         document.getElementById("callStatusSubtext").textContent = "You will earn ₦5,000 • Tap green phone button to launch";
     }
@@ -670,25 +862,18 @@
         btnUsa.classList.remove("active");
         btnBelgium.classList.remove("active");
 
-        if (country === 'usa') {
-            btnUsa.classList.add("active");
-        } else {
-            btnBelgium.classList.add("active");
-        }
+        if (country === 'usa') { btnUsa.classList.add("active"); } 
+        else { btnBelgium.classList.add("active"); }
 
         wrapper.innerHTML = "";
         countryLines[country].forEach(num => {
             const div = document.createElement("div");
             div.className = "line-row";
             div.setAttribute("onclick", `selectLine(this, '${num}')`);
-            div.innerHTML = `
-                <span class="line-number">${num}</span>
-                <span class="line-payout">+₦5,000</span>
-            `;
+            div.innerHTML = `<span class="line-number">${num}</span><span class="line-payout">+₦5,000</span>`;
             wrapper.appendChild(div);
         });
 
-        // Reset system dashboard monitor status panel on region tab flip
         document.getElementById("callStatusMessage").textContent = "Select a line above to queue a connection";
         document.getElementById("callStatusSubtext").textContent = "Tap any regional channel block";
     }
@@ -720,16 +905,11 @@
             },
             buttonsStyling: false
         }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "payment.html";
-            }
+            if (result.isConfirmed) { window.location.href = "payment.html"; }
         });
     });
 
-    function triggerLockedNotice() {
-        document.getElementById("activateProfileBtn").click();
-    }
-
+    function triggerLockedNotice() { document.getElementById("activateProfileBtn").click(); }
     switchLines('usa');
 </script>
 
