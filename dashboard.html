@@ -154,12 +154,22 @@
 
         .line-row {
             background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.02);
             border-radius: 12px;
             padding: 12px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .line-row:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .line-row.selected-line {
+            background: rgba(26, 122, 74, 0.12);
+            border-color: rgba(37, 160, 96, 0.4);
         }
         .line-row:last-child { margin-bottom: 0; }
 
@@ -177,6 +187,33 @@
             padding: 4px 10px;
             border-radius: 6px;
         }
+
+        /* Call Status Bar Element */
+        .call-status-bar {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px dashed rgba(37, 160, 96, 0.3);
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-call-trigger {
+            background: #22c55e;
+            color: #04120a;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+        .btn-call-trigger:active { transform: scale(0.9); }
 
         /* Actions Bar */
         .action-grid {
@@ -248,7 +285,7 @@
             position: relative;
             overflow: hidden;
         }
-       .atm-chip-graphic { width: 32px; height: 24px; background-color: var(--gold); border-radius: 4px; margin-bottom: 16px; }
+        .atm-chip-graphic { width: 32px; height: 24px; background-color: var(--gold); border-radius: 4px; margin-bottom: 16px; }
 
         .btn-claim {
             width: 100%;
@@ -351,7 +388,6 @@
 <header class="dashboard-header">
     <div class="container d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center gap-3">
-            <!-- Animated hyperlinked support icon replacing previous bars menu layout -->
             <a href="https://t.me/nextel_connect_support" target="_blank" class="support-link" title="Contact System Workspace Support">
                 <i class="fas fa-headset"></i>
             </a>
@@ -391,6 +427,17 @@
             <div id="linesWrapper">
                 <!-- Loaded via javascript layout environment -->
             </div>
+
+            <!-- Status action sheet footer for selected calls -->
+            <div class="call-status-bar">
+                <div style="font-size: 0.8rem; color: rgba(255,255,255,0.85); max-width: calc(100% - 50px);">
+                    <div style="font-weight: 700; color: var(--gold);" id="callStatusMessage">Select a line above to queue a connection</div>
+                    <div style="font-size: 0.72rem; color: var(--text-muted);" id="callStatusSubtext">Tap any regional channel block</div>
+                </div>
+                <button class="btn-call-trigger" id="callExecuteBtn" onclick="triggerLockedNotice()">
+                    <i class="fas fa-phone-alt"></i>
+                </button>
+            </div>
         </div>
 
         <!-- Immediate Configuration Call to Actions Grid -->
@@ -409,7 +456,6 @@
         <h4 class="section-title">Your Call Stats</h4>
         <div class="row align-items-center">
             <div class="col-4 text-center">
-                <!-- Circular network load mapping mockup representation -->
                 <div style="width:65px; height:65px; border-radius:50%; border:5px solid rgba(255,255,255,0.05); border-top-color:var(--green-light); display:flex; align-items:center; justify-content:center; margin:0 auto;">
                     <span style="font-size:0.85rem; font-weight:700;">0%</span>
                 </div>
@@ -517,31 +563,30 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<!-- SweetAlert2 Core Promise Engine Module script -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    // Mock Database Arrays for Interactive Layout Toggling
+    // Expanded Database Arrays containing 10 lines each
     const countryLines = {
         usa: [
-            "+1 (323) 801-6643",
-            "+1 (404) 919-5520",
-            "+1 (702) 664-1189"
+            "+1 (323) 801-6643", "+1 (404) 919-5520", "+1 (702) 664-1189",
+            "+1 (213) 457-8811", "+1 (646) 389-9942", "+1 (312) 508-3376",
+            "+1 (786) 245-0091", "+1 (415) 890-4431", "+1 (202) 555-0144",
+            "+1 (305) 779-1120"
         ],
         belgium: [
-            "+32 (2) 504-0111",
-            "+32 (3) 218-1212",
-            "+32 (9) 242-4211"
+            "+32 (2) 504-0111", "+32 (3) 218-1212", "+32 (9) 242-4211",
+            "+32 (4) 349-8022", "+32 (2) 715-3000", "+32 (15) 442-111",
+            "+32 (50) 444-646", "+32 (11) 289-111", "+32 (81) 206-611",
+            "+32 (56) 238-711"
         ]
     };
 
-    // Pull configuration details dynamically from Session Database Objects
     let localUserData = null;
     try {
         const rawData = sessionStorage.getItem("nxt_user");
         if (rawData) {
             localUserData = JSON.parse(rawData);
-            // Inject username straight into the UI header parameters
             if (localUserData.username) {
                 document.getElementById("usernameDisplay").textContent = localUserData.username;
             }
@@ -553,13 +598,26 @@
         console.error("Session reading failure token keys", e);
     }
 
-    // Function to handle switching lines dynamically between USA and Belgium
+    // Function to handle choosing a connection line from the list panel
+    function selectLine(element, number) {
+        // Remove previous selection states across rows
+        document.querySelectorAll('.line-row').forEach(row => {
+            row.classList.remove('selected-line');
+        });
+        
+        // Highlight chosen target
+        element.classList.add('selected-line');
+        
+        // Update operational text labels inside status banner
+        document.getElementById("callStatusMessage").textContent = `Ready to call: ${number}`;
+        document.getElementById("callStatusSubtext").textContent = "You will earn ₦5,000 • Tap green phone button to launch";
+    }
+
     function switchLines(country) {
         const wrapper = document.getElementById("linesWrapper");
         const btnUsa = document.getElementById("btnUsa");
         const btnBelgium = document.getElementById("btnBelgium");
 
-        // Clear active visual states
         btnUsa.classList.remove("active");
         btnBelgium.classList.remove("active");
 
@@ -569,21 +627,24 @@
             btnBelgium.classList.add("active");
         }
 
-        // Render rows
         wrapper.innerHTML = "";
         countryLines[country].forEach(num => {
             const div = document.createElement("div");
             div.className = "line-row";
+            div.setAttribute("onclick", `selectLine(this, '${num}')`);
             div.innerHTML = `
                 <span class="line-number">${num}</span>
                 <span class="line-payout">+₦5,000</span>
             `;
             wrapper.appendChild(div);
         });
+
+        // Reset system dashboard monitor status panel on region tab flip
+        document.getElementById("callStatusMessage").textContent = "Select a line above to queue a connection";
+        document.getElementById("callStatusSubtext").textContent = "Tap any regional channel block";
     }
-// Custom SweetAlert notification engine activation execution setup
+
     document.getElementById("activateProfileBtn").addEventListener("click", function() {
-        // Fallback checks if registration metrics can be read cleanly
         const chosenPlan = (localUserData && localUserData.planName) ? localUserData.planName : "Nextel Pro Plan";
         const customFeeText = chosenPlan === "Nextel Lite" ? "⚡ One-Time Fee: ₦12,000" : "⚡ One-Time Fee: ₦17,500";
 
@@ -615,11 +676,11 @@
             }
         });
     });
+
     function triggerLockedNotice() {
         document.getElementById("activateProfileBtn").click();
     }
 
-    // Default immediate initialize layout view stack parameters
     switchLines('usa');
 </script>
 
