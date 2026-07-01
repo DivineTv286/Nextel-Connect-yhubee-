@@ -275,31 +275,83 @@
         .stat-label { color: var(--text-muted); }
         .stat-value { font-weight: 600; }
 
-        /* ATM Promo Banner */
-        .atm-promo-card {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 18px;
+        /* Virtual eSIM Card Styles from reference */
+        .esim-status-card {
+            background: linear-gradient(145deg, #0a2215, #06170e);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
             padding: 20px;
             margin-top: 16px;
             position: relative;
-            overflow: hidden;
         }
-        .atm-chip-graphic { width: 32px; height: 24px; background-color: var(--gold); border-radius: 4px; margin-bottom: 16px; }
 
-        .btn-claim {
-            width: 100%;
-            background: #fff;
-            color: #000;
-            border: none;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 0.82rem;
+        .esim-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .esim-brand {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .esim-logo {
+            font-size: 1.1rem;
+            margin-right: 8px;
+        }
+
+        .esim-icon-box {
+            background: rgba(26, 122, 74, 0.1);
+            color: var(--green-light);
+            border: 1px solid rgba(26, 122, 74, 0.3);
+            border-radius: 8px;
+            padding: 4px 8px;
+            font-size: 0.72rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
+
+        .esim-chip {
+            width: 30px; height: 22px;
+            background-color: var(--gold);
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+
+        .esim-data-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .esim-data-point {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .esim-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .esim-value {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .esim-value.success { color: #4ade80; }
+        .esim-value.gold { color: var(--gold); }
 
         /* Premium Bonus Tasks */
         .task-row {
@@ -478,40 +530,40 @@
         </div>
     </section>
 
-    <!-- Plan Matrix Settings Area -->
-    <section class="status-card">
-        <h4 class="section-title">Your Current Plan</h4>
-        <div class="d-flex justify-content-between align-items-start mb-2">
-            <div>
-                <div style="font-size:0.88rem; color:var(--text-muted);">Your Plan</div>
-                <div style="font-size:0.75rem; color:rgba(255,255,255,0.4); line-height:1.4;" class="mt-1">This plan allows you to manage up to 12 lines on your phone layout network setup.</div>
-            </div>
-            <div style="color:#4ade80; font-weight:800; font-size:1.05rem; white-space:nowrap;" id="planNameDisplay">Starter Account</div>
+    <!-- Virtual eSIM Status Card Area - Updated from special gift -->
+    <section class="esim-status-card">
+        <div class="esim-header">
+            <div class="esim-brand"><i class="fas fa-network-wired esim-logo"></i>NEXTEL</div>
+            <div class="esim-icon-box"><i class="fas fa-signal"></i>ESIM</div>
         </div>
-        
-        <hr style="border-top:1px solid rgba(255,255,255,0.08); margin:15px 0;">
+        <div class="esim-chip"></div>
+        <div class="d-flex justify-content-between align-items-end">
+            <div>
+                <div class="esim-label">Virtual line</div>
+                <div class="esim-value" style="font-size:1rem; font-weight:800; letter-spacing:1px;">+1 (•••) ••-•••</div>
+            </div>
+            <div style="font-size:0.7rem; font-weight:600; color:rgba(255,255,255,0.7);"><i class="fas fa-eye me-1"></i>Show</div>
+        </div>
 
-        <div class="d-flex justify-content-between align-items-center">
-            <div>
-                <div style="font-size:0.88rem; color:var(--text-muted);">Account Status</div>
-                <div style="font-size:0.72rem; color:rgba(255,255,255,0.4);" class="mt-1">You need to pay the quick account upgrade fee to start earning and make phone withdrawals.</div>
+        <!-- Data Grid matching reference IMG_20260701_112046_363.jpg -->
+        <div class="esim-data-grid">
+            <div class="esim-data-point">
+                <div class="esim-label">Plan</div>
+                <div class="esim-value gold">Royal</div>
             </div>
-            <span style="color:#f87171; font-weight:700; font-size:0.95rem; white-space:nowrap;">Not Active</span>
-        </div>
-    </section>
-
-    <!-- ATM Reward Claiming Layout Panel -->
-    <section class="atm-promo-card">
-        <div class="d-flex justify-content-between align-items-start">
-            <div>
-                <span style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--text-muted);">Special Gift</span>
-                <h4 style="font-size:1.15rem; font-weight:800; margin:4px 0 2px 0;">Free NEXTEL ATM Card</h4>
+            <div class="esim-data-point">
+                <div class="esim-label">Lines</div>
+                <div class="esim-value">13/50</div>
             </div>
-            <span style="font-size:0.7rem; font-weight:800; font-style:italic; color:rgba(255,255,255,0.3);">NEXTEL</span>
+            <div class="esim-data-point">
+                <div class="esim-label">Valid</div>
+                <div class="esim-value">12/26</div>
+            </div>
+            <div class="esim-data-point">
+                <div class="esim-label">Status</div>
+                <div class="esim-value success">Active</div>
+            </div>
         </div>
-        <div class="atm-chip-graphic"></div>
-        <p style="font-size:0.76rem; color:rgba(255,255,255,0.6); margin-bottom:0; line-height:1.4;">Get your personalized withdrawal card shipped to your local door delivery address for free.</p>
-        <button class="btn-claim" onclick="triggerLockedNotice()">Claim Your Free Card Now</button>
     </section>
 
     <!-- Tasks and Network Bonuses Module Panel -->
@@ -590,9 +642,6 @@
             if (localUserData.username) {
                 document.getElementById("usernameDisplay").textContent = localUserData.username;
             }
-            if (localUserData.planName) {
-                document.getElementById("planNameDisplay").textContent = localUserData.planName + " Account";
-            }
         }
     } catch(e) {
         console.error("Session reading failure token keys", e);
@@ -645,7 +694,7 @@
     }
 
     document.getElementById("activateProfileBtn").addEventListener("click", function() {
-        const chosenPlan = (localUserData && localUserData.planName) ? localUserData.planName : "Nextel Pro Plan";
+        const chosenPlan = (localUserData && localUserData.planName) ? localUserData.planName : "Nextel Royal Plan";
         const customFeeText = chosenPlan === "Nextel Lite" ? "⚡ One-Time Fee: ₦12,000" : "⚡ One-Time Fee: ₦17,500";
 
         Swal.fire({
