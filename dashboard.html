@@ -579,8 +579,7 @@
             wrapper.appendChild(div);
         });
     }
-
-    // Custom SweetAlert notification engine activation execution setup
+// Custom SweetAlert notification engine activation execution setup
     document.getElementById("activateProfileBtn").addEventListener("click", function() {
         // Fallback checks if registration metrics can be read cleanly
         const chosenPlan = (localUserData && localUserData.planName) ? localUserData.planName : "Nextel Pro Plan";
@@ -610,20 +609,10 @@
             buttonsStyling: false
         }).then((result) => {
             if (result.isConfirmed) {
-                // Handle redirection or system workspace configuration values
-                Swal.fire({
-                    toast: true,
-                    icon: 'info',
-                    title: 'Redirecting to payment server gate...',
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
+                window.location.href = "payment.html";
             }
         });
     });
-
-    // Helper catch mechanism to trap unactivated clicks across secondary layout tasks
     function triggerLockedNotice() {
         document.getElementById("activateProfileBtn").click();
     }
