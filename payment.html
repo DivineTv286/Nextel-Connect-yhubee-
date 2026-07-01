@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activate Account - Nextel Connect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+    
+    <style>
+        :root {
+            --dark:        #071a0f;
+            --dark-card:   #0b2516;
+            --green:       #1a7a4a;
+            --green-light: #25a060;
+            --gold:        #C9A84C;
+            --gold-light:  #D4A843;
+            --text-muted:  rgba(255, 255, 255, 0.6);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px 0;
+        }
+
+        .payment-container {
+            max-width: 480px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .payment-card {
+            background: linear-gradient(145deg, #0a2215, #06170e);
+            border: 1px solid rgba(201, 168, 76, 0.2);
+            border-radius: 24px;
+            padding: 30px 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .brand-header {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 25px;
+            letter-spacing: 0.5px;
+        }
+        .brand-header span { color: var(--green-light); }
+
+        .invoice-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .invoice-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        .invoice-row:last-child {
+            margin-bottom: 0;
+            padding-top: 10px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .method-option {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 12px;
+        }
+        .method-option:hover {
+            background: rgba(26, 122, 74, 0.08);
+            border-color: var(--green-light);
+        }
+        .method-option.selected {
+            background: rgba(201, 168, 76, 0.08);
+            border-color: var(--gold);
+        }
+
+        .method-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--gold);
+        }
+        .method-option.selected .method-icon {
+            background: var(--gold);
+            color: var(--dark);
+        }
+
+        .btn-pay {
+            width: 100%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--dark);
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(201, 168, 76, 0.2);
+            transition: transform 0.2s;
+        }
+        .btn-pay:active { transform: scale(0.98); }
+
+        .btn-back {
+            display: block;
+            text-align: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-top: 16px;
+            font-weight: 500;
+        }
+        .btn-back:hover { color: #fff; }
+    </style>
+</head>
+<body>
+
+<div class="container payment-container">
+    <div class="payment-card">
+        <div class="brand-header">NEXTEL <span>Connect</span></div>
+        
+        <h5 class="text-center mb-4" style="font-weight: 700; font-size: 1.1rem;">Secure Secure Checkout</h5>
+
+        <!-- Dynamic Invoice Summary Box -->
+        <div class="invoice-box">
+            <div class="invoice-row">
+                <span style="color: var(--text-muted);">Account Workspace:</span>
+                <span id="userWorkspace" style="font-weight: 600;">Loading...</span>
+            </div>
+            <div class="invoice-row">
+                <span style="color: var(--text-muted);">Selected Setup:</span>
+                <span id="planType" style="font-weight: 600;">Loading...</span>
+            </div>
+            <div class="invoice-row" style="font-size: 1.05rem;">
+                <span style="font-weight: 700;">Total Amount:</span>
+                <span id="totalPrice" style="font-weight: 800; color: #4ade80;">₦0.00</span>
+            </div>
+        </div>
+
+        <p class="mb-3" style="font-size: 0.8rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px;">Select Payment Gateway</p>
+
+        <!-- Payment Channels Selection Layout -->
+        <div class="method-option selected" onclick="selectMethod(this)">
+            <div class="method-icon"><i class="fas fa-credit-card"></i></div>
+            <div>
+                <div style="font-size: 0.9rem; font-weight: 600;">Pay with Card</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">Visa, Mastercard, Verve</div>
+            </div>
+        </div>
+
+        <div class="method-option" onclick="selectMethod(this)">
+            <div class="method-icon"><i class="fas fa-university"></i></div>
+            <div>
+                <div style="font-size: 0.9rem; font-weight: 600;">Bank Transfer</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">Instant automated bank deposit account</div>
+            </div>
+        </div>
+
+        <div class="method-option" onclick="selectMethod(this)">
+            <div class="method-icon"><i class="fas fa-mobile-alt"></i></div>
+            <div>
+                <div style="font-size: 0.9rem; font-weight: 600;">USSD Transfer Code</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">Fast access dial code options</div>
+            </div>
+        </div>
+
+        <button class="btn-pay" onclick="executePaymentMock()">
+            <i class="fas fa-lock me-2"></i> Complete Activation Payment
+        </button>
+
+        <a href="dashboard.html" class="btn-back"><i class="fas fa-arrow-left me-1"></i> Cancel & Go Back</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // Pull setup information out from the existing Session Storage database
+    try {
+        const sessionData = sessionStorage.getItem("nxt_user");
+        if (sessionData) {
+            const userObj = JSON.parse(sessionData);
+            document.getElementById("userWorkspace").textContent = userObj.username || "CELESTE";
+            
+            const activePlan = userObj.planName || "Nextel Pro Plan";
+            document.getElementById("planType").textContent = activePlan;
+            
+            // Replicate the pricing variables perfectly
+            const cost = activePlan === "Nextel Lite" ? "₦12,000.00" : "₦17,500.00";
+            document.getElementById("totalPrice").textContent = cost;
+        } else {
+            // Default fallbacks if directly navigating to this page
+            document.getElementById("userWorkspace").textContent = "CELESTE";
+            document.getElementById("planType").textContent = "Nextel Pro Plan";
+            document.getElementById("totalPrice").textContent = "₦17,500.00";
+        }
+    } catch (err) {
+        console.error("Session profile load failure parameters", err);
+    }
+
+    // Toggle selected payment element states visually
+    function selectMethod(element) {
+        document.querySelectorAll('.method-option').forEach(opt => opt.classList.remove('selected'));
+        element.classList.add('selected');
+    }
+
+    // Process secure action mock simulation sequence
+    function executePaymentMock() {
+        Swal.fire({
+            title: 'Processing Payment...',
+            text: 'Connecting safely to secure financial gateway integrations.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            },
+            timer: 3000
+        }).then(() => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Activation Complete',
+                text: 'Your Nextel profile space setup has successfully unlocked!',
+                confirmButtonColor: '#1a7a4a'
+            }).then(() => {
+                // Redirect user safely straight into their updated ecosystem environment layout
+                window.location.href = "dashboard.html";
+            });
+        });
+    }
+</script>
+</body>
+</html>
