@@ -1,1 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Nextel Connect</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/logo.png">
+    <meta name="theme-color" content="#071a0f">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
 
+    <style>
+        :root {
+            --dark-bg: #05140b;
+            --card-bg: #092213;
+            --green-glow: #1a7a4a;
+            --neon-green: #00ff88;
+            --gold: #C9A84C;
+            --gold-light: #D4A843;
+            --text-muted: rgba(255, 255, 255, 0.6);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            padding-top: 75px;
+            padding-bottom: 40px;
+        }
+
+        /* Top Header Navigation */
+        .dash-nav {
+            background-color: rgba(5, 20, 11, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px 0;
+        }
+        .dash-logo { height: 32px; }
+        .user-badge {
+            background: rgba(201, 168, 76, 0.15);
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 5px 14px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Dashboard Container Constraints */
+        .dash-wrapper {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 12px;
+        }
+
+        /* Custom Cards */
+        .dash-card {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 18px;
+        }
+
+        /* Wallet Section */
+        .wallet-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .status-dot-label {
+            color: #ffc107;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .status-dot-label::before {
+            content: '';
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            background-color: #ffc107;
+            border-radius: 50%;
+        }
+        .wallet-balance {
+            font-size: 2.3rem;
+            font-weight: 800;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+
+        /* Sub Card Matrix inside Wallet Container */
+        .inner-matrix-box {
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 15px;
+        }
+        .matrix-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .matrix-lbl-gold { color: var(--gold); }
+        .matrix-lbl-green { color: #20c997; }
+
+        /* Country Line Pills */
+        .line-pills-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .line-pill {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .line-pill.active {
+            background: rgba(26, 122, 74, 0.2);
+            border-color: #25a060;
+            color: #fff;
+        }
+
+        /* Number Rows */
+        .number-strip {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .number-strip:last-child { margin-bottom: 0; }
+        .payout-badge {
+            background-color: rgba(32, 201, 151, 0.15);
+            color: #20c997;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        /* Primary Call-to-Actions Buttons */
+        .action-btn-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+        .btn-dash-action {
+            flex: 1;
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+        .btn-dash-action:active { transform: scale(0.97); }
+        .btn-dash-mint { background-color: #51e2a8; color: #05140b; }
+        .btn-dash-dark { background-color: rgba(255, 255, 255, 0.08); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.1); }
+
+        /* Section Heads */
+        .section-header-title {
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            padding-left: 2px;
+        }
+
+        /* Stats Donut & Metrics Area */
+        .stats-flex-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .donut-chart-wrapper {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: conic-gradient(rgba(255,255,255,0.05) 0% 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .donut-chart-wrapper::before {
+            content: '0%';
+            position: absolute;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+        .donut-metric-list {
+            flex: 1;
+            font-size: 0.8rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .donut-metric-list li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            color: var(--text-muted);
+        }
+        .donut-metric-list li span:last-child {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .dot-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        /* Status Labels styling */
+        .status-val-alert { color: #e46060 !important; }
+        .live-data-indicator { color: #51e2a8; font-size: 0.78rem; font-weight: 500; }
+
+        /* Plan Meta Details styling */
+        .plan-main-title { font-size: 1.15rem; font-weight: 700; color: #ffffff; }
+        .plan-accent-status { color: #51e2a8; font-weight: 700; }
+        .plan-explainer-text { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; margin-top: 4px; }
+
+        /* Special ATM Gift Banner Card */
+        .atm-gift-card {
+            background: linear-gradient(135deg, #102454 0%, #0b1536 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        .atm-sub-tag { font-size: 0.7rem; font-weight: 700; color: #6b8df2; letter-spacing: 0.06em; text-transform: uppercase; }
+        .atm-brand-watermark { position: absolute; right: 20px; top: 20px; font-size: 0.8rem; font-style: italic; font-weight: 800; opacity: 0.2; }
+        .atm-main-heading { font-size: 1.25rem; font-weight: 700; margin-top: 2px; margin-bottom: 12px; }
+        .atm-chip-graphic { width: 32px; height: 24px; background-color: var(--gold); border-radius: 4px; margin-bottom: 16px; }
+        .btn-atm-claim {
+            width: 100%;
+            background-color: #ffffff;
+            color: #0b1536;
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        /* Dynamic Task & Bonus Lists blocks */
+        .task-list-container { display: flex; flex-direction: column; gap: 10px; }
+        .task-strip-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 14px;
+        }
+        .task-strip-row.purple-variant { background: linear-gradient(90deg, #321475 0%, var(--card-bg) 100%); }
+        .task-left-meta { display: flex; align-items: flex-start; gap: 12px; }
+        .task-icon-box {
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .purple-variant .task-icon-box { background-color: rgba(255, 255, 255, 0.12); }
+        .task-inner-title { font-size: 0.84rem; font-weight: 600; color: #ffffff; margin-bottom: 2px; }
+        .task-inner-desc { font-size: 0.74rem; color: var(--text-muted); line-height: 1.4; max-width: 220px; }
+        
+        .btn-task-action-pill {
+            background-color: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #51e2a8;
+            font-size: 0.74rem;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 10px;
+            white-space: nowrap;
+        }
+        .btn-task-action-pill.gold-filled {
+            background-color: #ffc107;
+            color: #05140b;
+            border: none;
+            font-size: 0.78rem;
+            padding: 7px 14px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Fixed Top Navigation Header -->
+<nav class="dash-nav fixed-top">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-3">
+            <i class="fa-solid fa-bars fs-5 text-white" style="cursor: pointer;"></i>
+            <img src="assets/logo.png" alt="Nextel Connect" class="dash-logo">
+        </div>
+        <div class="user-badge" id="dashUserBadge">Guest</div>
+    </div>
+</nav>
+
+<!-- Core Application Layout Shell -->
+<main class="dash-wrapper mt-3">
+
+    <!-- Card Group 1: Main Wallet Configuration Frame -->
+    <div class="dash-card">
+        <div class="wallet-title-row">
+            <span>Your Main Wallet</span>
+            <span class="status-dot-label">Not Active</span>
+        </div>
+        <div class="wallet-balance">₦0.00</div>
+
+        <div class="inner-matrix-box">
+            <div class="matrix-header">
+                <span class="matrix-lbl-gold">Available Country Lines</span>
+                <span class="matrix-lbl-green">Earn ₦5,000 Per Call</span>
+            </div>
+
+            <!-- Country Segment Selectors (Emojis swapped for Flag Icons) -->
+            <div class="line-pills-row">
+                <div class="line-pill active">
+                    <i class="fa-solid fa-flag"></i> USA Lines (10)
+                </div>
+                <div class="line-pill">
+                    <i class="fa-solid fa-flag"></i> Belgium Lines (10)
+                </div>
+            </div>
+
+            <!-- Virtual Earning Target Rows -->
+            <div class="number-strip">
+                <span>+1 (323) 801-6643</span>
+                <span class="payout-badge">+₦5,000</span>
+            </div>
+            <div class="number-strip">
+                <span>+1 (404) 919-5520</span>
+                <span class="payout-badge">+₦5,000</span>
+            </div>
+            <div class="number-strip">
+                <span>+1 (702) 664-1189</span>
+                <span class="payout-badge">+₦5,000</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Primary Dashboard CTA Trigger Layout (Emojis swapped for Bolt & Building Columns) -->
+    <div class="action-btn-row">
+        <button class="btn-dash-action btn-dash-mint">
+            <i class="fa-solid fa-bolt"></i> Activate Account
+        </button>
+        <button class="btn-dash-action btn-dash-dark">
+            <i class="fa-solid fa-building-columns"></i> Link Bank Details
+        </button>
+    </div>
+
+    <!-- Card Group 2: Operational Call Statistics Module -->
+    <div class="section-header-title">Your Call Stats</div>
+    <div class="dash-card">
+        <div class="stats-flex-container">
+            <div class="donut-chart-wrapper"></div>
+            <ul class="donut-metric-list">
+                <li class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="fs-7 text-white-50"><span class="dot-indicator" style="background-color: #25a060;"></span>Total Call Time</span>
+                    <span>0 min</span>
+                </li>
+                <li class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="fs-7 text-white-50"><span class="dot-indicator" style="background-color: #e46060;"></span>Active Lines</span>
+                    <span>0 Lines</span>
+                </li>
+                <li class="d-flex justify-content-between align-items-center">
+                    <span class="fs-7 text-white-50"><span class="dot-indicator" style="background-color: #6c757d;"></span>Earnings Rate</span>
+                    <span>₦0.00/min</span>
+                </li>
+            </ul>
+            <div class="align-self-start live-data-indicator">Live Data</div>
+        </div>
+    </div>
+
+    <!-- Card Group 3: Current Allocation Plan Profile Container -->
+    <div class="section-header-title">Your Current Plan</div>
+    <div class="dash-card">
+        <div class="d-flex justify-content-between align-items-start">
+            <div>
+                <div class="text-white-50 fs-7 fw-medium text-uppercase small" style="letter-spacing: 0.02em;">Your Plan</div>
+                <div class="plan-explainer-text">This plan allows you to manage up to 12 lines on your phone layout network setup.</div>
+            </div>
+            <div class="plan-main-title plan-accent-status text-end flex-shrink-0" id="dashPlanName">Starter Account</div>
+        </div>
+    </div>
+
+    <!-- Card Group 4: Account Functional Standing Frame -->
+    <div class="dash-card">
+        <div class="d-flex justify-content-between align-items-start">
+            <div>
+                <div class="text-white-50 fs-7 fw-medium text-uppercase small" style="letter-spacing: 0.02em;">Account Status</div>
+                <div class="plan-explainer-text">You need to pay the quick account upgrade fee to start earning and make phone withdrawals.</div>
+            </div>
+            <div class="plan-main-title status-val-alert text-end flex-shrink-0">Not Active</div>
+        </div>
+    </div>
+
+    <!-- Card Group 5: Incentive Special Offer Blueprint Frame -->
+    <div class="atm-gift-card">
+        <div class="atm-sub-tag">Special Gift</div>
+        <div class="atm-brand-watermark">NEXTEL</div>
+        <div class="atm-main-heading text-white">Free NEXTEL ATM Card</div>
+        <div class="atm-chip-graphic"></div>
+        <p class="text-white-50 fs-7 mb-3" style="font-size: 0.76rem; line-height: 1.5;">Get your personalized withdrawal card shipped to your local door delivery address for free.</p>
+        <button class="btn-atm-claim">Claim Your Free Card Now</button>
+    </div>
+
+    <!-- Card Group 6: Tasks Management List (Emojis swapped for Robot, Phone, & Gift Icons) -->
+    <div class="section-header-title">Quick Tasks & AI Bonuses</div>
+    <div class="task-list-container">
+        
+        <!-- Task Block 1 -->
+        <div class="task-strip-row purple-variant">
+            <div class="task-left-meta">
+                <div class="task-icon-box"><i class="fa-solid fa-robot"></i></div>
+                <div>
+                    <div class="task-inner-title">AI Call (10 People At Once)</div>
+                    <div class="task-inner-desc">Let AI make 10 automatic calls together instantly</div>
+                </div>
+            </div>
+            <button class="btn-task-action-pill gold-filled">₦50,000.00</button>
+        </div>
+
+        <!-- Task Block 2 -->
+        <div class="task-strip-row">
+            <div class="task-left-meta">
+                <div class="task-icon-box"><i class="fa-solid fa-phone"></i></div>
+                <div>
+                    <div class="task-inner-title">Nextel Line Call</div>
+                    <div class="task-inner-desc">Start a regular premium network earning line</div>
+                </div>
+            </div>
+            <button class="btn-task-action-pill">+ ₦5,000</button>
+        </div>
+
+        <!-- Task Block 3 -->
+        <div class="task-strip-row">
+            <div class="task-left-meta">
+                <div class="task-icon-box"><i class="fa-solid fa-gift"></i></div>
+                <div>
+                    <div class="task-inner-title">Bonus Promotional Call</div>
+                    <div class="task-inner-desc">Claim daily account multiplier bonus task</div>
+                </div>
+            </div>
+            <button class="btn-task-action-pill">+ ₦7,500</button>
+        </div>
+
+    </div>
+
+</main>
+
+<!-- Hydration Session Initialization -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        try {
+            const rawSession = sessionStorage.getItem("nxt_user");
+            if (rawSession) {
+                const userData = JSON.parse(rawSession);
+                
+                // Hydrate the User Badge Display
+                if (userData.username) {
+                    document.getElementById("dashUserBadge").textContent = userData.username;
+                }
+                // Hydrate the Active Plan Display 
+                if (userData.planName) {
+                    document.getElementById("dashPlanName").textContent = userData.planName;
+                }
+            }
+        } catch (e) {
+            console.error("Error retrieving user session context parameters:", e);
+        }
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
