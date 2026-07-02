@@ -345,29 +345,51 @@
         </div>
 
         <!-- System Account Matrix -->
-        <div class="bank-details-box">
-            <div class="detail-row">
-                <span class="detail-label">Bank Name</span>
-                <span class="detail-value text-info font-monospace">KUDA</span>
-            </div>
-            
-            <div class="detail-row">
-                <span class="detail-label">Account Number</span>
-                <span class="detail-value font-monospace">
-                    3003999870
-                    <button class="btn-copy-small" onclick="copyToClipboard('3003999870', 'Account number copied!')">
-                        <i class="far fa-copy"></i>
-                    </button>
-                </span>
+       <div class="bank-details-box">
+            <div class="account-block mb-4 pb-3" style="border-bottom: 1px dashed rgba(255, 255, 255, 0.1);">
+                <div class="detail-row">
+                    <span class="detail-label">Bank Name</span>
+                    <span class="detail-value text-info font-monospace">KUDA</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Account Number</span>
+                    <span class="detail-value font-monospace">
+                        3003999870
+                        <button class="btn-copy-small" onclick="copyToClipboard('3003999870', 'Account number copied!')">
+                            <i class="far fa-copy"></i>
+                        </button>
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Account Name</span>
+                    <span class="detail-value text-white-50" style="font-size: 0.85rem;">NEXTEL CONNECT III</span>
+                </div>
             </div>
 
-            <div class="detail-row">
-                <span class="detail-label">Account Name</span>
-                <span class="detail-value text-white-50" style="font-size: 0.85rem;">NEXTEL CONNECT III</span>
+            <div class="account-block">
+                <div class="detail-row">
+                    <span class="detail-label">Bank Name</span>
+                    <span class="detail-value text-info font-monospace">MONIEPOINT</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Account Number</span>
+                    <span class="detail-value font-monospace">
+                        8123456789
+                        <button class="btn-copy-small" onclick="copyToClipboard('8123456789', 'Account number copied!')">
+                            <i class="far fa-copy"></i>
+                        </button>
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Account Name</span>
+                    <span class="detail-value text-white-50" style="font-size: 0.85rem;">NEXTEL CONNECT III</span>
+                </div>
             </div>
         </div>
-
-        <!-- Dynamic Form Redirect Hook -->
         <a href="#" id="telegramLink" target="_blank" class="btn-submit-telegram">
             <i class="fab fa-telegram-plane"></i> Submit Payment Proof
         </a>
@@ -375,6 +397,7 @@
         <a href="dashboard.html" class="btn-back"><i class="fas fa-arrow-left me-1"></i> Cancel & Go Back</a>
     </div>
 </div>
+    
 
 <div class="toast-copy" id="copyToast">Copied!</div>
 
