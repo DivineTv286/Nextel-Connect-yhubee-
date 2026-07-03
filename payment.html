@@ -437,13 +437,12 @@
     } catch(e) {
         console.error("Failed parsing storage context session indicators", e);
     }
-
-    // Assign copy action variable configuration directly to the button logic
     document.getElementById("copyAmountBtn").setAttribute("onclick", `copyToClipboard('${rawAmount}', 'Amount copied!')`);
 
     const baseText = "Hello Coach 👋\n\nI have successfully made payment for NEXTEL registration.\n\nKindly find my payment proof attached below for verification.\n\nEmail Address: " + userEmail + "\nPhone Number: " + userPhone;
     const encodedText = encodeURIComponent(baseText);
-    document.getElementById("telegramLink").href = `https://t.me/Coachyhubee?text=${encodedText}`;
+    document.getElementById("telegramLink").href = `https://t.me/Nextelsupportt?text=${encodedText}`;
+
 
     // Standard 10 Minute Payment Session Countdown Script
     let durationSeconds = 10 * 60;
