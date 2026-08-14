@@ -1,9 +1,0 @@
-{
-  "name": "nextel-connect",
-  "version": "1.0.0",
-  "description": "Nextel Connect Platform",
-  "type": "module",
-  "dependencies": {
-    "sib-api-v3-sdk": "^8.5.0"
-  }
-}
