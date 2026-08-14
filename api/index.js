@@ -1,7 +1,6 @@
-const SibApiV3Sdk = require('sib-api-v3-sdk');
+import SibApiV3Sdk from 'sib-api-v3-sdk';
 
 export default async function handler(req, res) {
-    // Only allow POST requests
     if (req.method !== 'POST') {
         res.setHeader('Allow', ['POST']);
         return res.status(405).json({ success: false, message: `Method ${req.method} Not Allowed` });
@@ -14,7 +13,6 @@ export default async function handler(req, res) {
     }
 
     try {
-        // Initialize Brevo client
         const defaultClient = SibApiV3Sdk.ApiClient.instance;
         const apiKey = defaultClient.authentications['api-key'];
         apiKey.apiKey = process.env.BREVO_API_KEY; 
@@ -42,7 +40,6 @@ export default async function handler(req, res) {
         `;
 
         await apiInstance.sendTransacEmail(sendSvcEmail);
-
         return res.status(200).json({ success: true, message: 'Welcome email sent successfully!' });
 
     } catch (error) {
