@@ -21,7 +21,7 @@ export default async function handler(req, res) {
             body: JSON.stringify({
                 sender: {
                     name: "Nextel Connect",
-                    email: process.env.SENDER_EMAIL || "raphealemmanuel411@gmail.com"
+                    email: process.env.SENDER_EMAIL || "divinetv183@gmail.com"
                 },
                 to: [{ email: email, name: fullName }],
                 subject: "Welcome to Nextel Connect! Account Activated",
