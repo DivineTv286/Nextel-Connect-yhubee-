@@ -26,7 +26,7 @@ export default async function handler(req, res) {
         sendSvcEmail.subject = "Welcome to Nextel Connect! Account Activated";
         sendSvcEmail.sender = { 
             name: "Nextel Connect", 
-            email: process.env.SENDER_EMAIL || "no-reply@nextelconnect.com" 
+            email: process.env.SENDER_EMAIL || "raphealemmanuel411@gmail.com" 
         };
         sendSvcEmail.to = [{ email: email, name: fullName }];
         sendSvcEmail.htmlContent = `
