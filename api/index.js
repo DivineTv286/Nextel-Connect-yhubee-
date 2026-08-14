@@ -1,5 +1,3 @@
-import SibApiV3Sdk from 'sib-api-v3-sdk';
-
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         res.setHeader('Allow', ['POST']);
@@ -13,37 +11,45 @@ export default async function handler(req, res) {
     }
 
     try {
-        const defaultClient = SibApiV3Sdk.ApiClient.instance;
-        const apiKey = defaultClient.authentications['api-key'];
-        apiKey.apiKey = process.env.BREVO_API_KEY; 
+        const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+            method: 'POST',
+            headers: {
+                'accept': 'application/json',
+                'api-key': process.env.BREVO_API_KEY,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                sender: {
+                    name: "Nextel Connect",
+                    email: process.env.SENDER_EMAIL || "raphealemmanuel411@gmail.com"
+                },
+                to: [{ email: email, name: fullName }],
+                subject: "Welcome to Nextel Connect! Account Activated",
+                htmlContent: `
+                    <div style="font-family: 'Poppins', Arial, sans-serif; background-color: #071a0f; color: #ffffff; padding: 40px; border-radius: 12px;">
+                        <h2 style="color: #C9A84C;">Welcome, ${fullName}!</h2>
+                        <p>Your Nextel Connect account has been successfully set up and activated.</p>
+                        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid rgba(201,168,76,0.2);">
+                            <p style="margin: 5px 0;"><strong>Package:</strong> ${planName}</p>
+                            <p style="margin: 5px 0;"><strong>Activation Fee:</strong> ₦${amount ? amount.toLocaleString() : '0'}</p>
+                        </div>
+                        <p>You can now log in to your dashboard and start earning from your telecommunication network stream.</p>
+                        <p style="color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-top: 30px;">&copy; 2026 Nextel Connect. All Rights Reserved.</p>
+                    </div>
+                `
+            })
+        });
 
-        const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-        const sendSvcEmail = new SibApiV3Sdk.SendSmtpEmail();
+        const data = await response.json();
 
-        sendSvcEmail.subject = "Welcome to Nextel Connect! Account Activated";
-        sendSvcEmail.sender = { 
-            name: "Nextel Connect", 
-            email: process.env.SENDER_EMAIL || "raphealemmanuel411@gmail.com" 
-        };
-        sendSvcEmail.to = [{ email: email, name: fullName }];
-        sendSvcEmail.htmlContent = `
-            <div style="font-family: 'Poppins', Arial, sans-serif; background-color: #071a0f; color: #ffffff; padding: 40px; border-radius: 12px;">
-                <h2 style="color: #C9A84C;">Welcome, ${fullName}!</h2>
-                <p>Your Nextel Connect account has been successfully set up and activated.</p>
-                <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid rgba(201,168,76,0.2);">
-                    <p style="margin: 5px 0;"><strong>Package:</strong> ${planName}</p>
-                    <p style="margin: 5px 0;"><strong>Activation Fee:</strong> ₦${amount ? amount.toLocaleString() : '0'}</p>
-                </div>
-                <p>You can now log in to your dashboard and start earning from your telecommunication network stream.</p>
-                <p style="color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-top: 30px;">&copy; 2026 Nextel Connect. All Rights Reserved.</p>
-            </div>
-        `;
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to send email via Brevo API');
+        }
 
-        await apiInstance.sendTransacEmail(sendSvcEmail);
         return res.status(200).json({ success: true, message: 'Welcome email sent successfully!' });
 
     } catch (error) {
-        console.error('Brevo API Error:', error);
+        console.error('Brevo Error:', error);
         return res.status(500).json({ success: false, message: error.message || 'Failed to send email' });
     }
 }
