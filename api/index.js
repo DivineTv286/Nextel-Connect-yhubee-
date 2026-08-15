@@ -67,15 +67,6 @@ export default async function handler(req, res) {
                         <p>Kindly complete your one-time activation payment using either of the official bank channels below:</p>
 
                         <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin: 15px 0;">
-                            <p style="margin: 3px 0;"><strong>Bank Name:</strong> KUDA MFB</p>
-                            <p style="margin: 3px 0;"><strong>Account Number:</strong> 3004181399</p>
-                            <p style="margin: 3px 0;"><strong>Account Name:</strong> NEXTEL ESIM ACTIVATION</p>
-                            <p style="margin: 3px 0;"><strong>Amount:</strong> ₦${formattedAmount}</p>
-                        </div>
-
-                        <p style="text-align: center; font-weight: bold; color: #C9A84C; margin: 10px 0;">OR</p>
-
-                        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin: 15px 0;">
                             <p style="margin: 3px 0;"><strong>Bank Name:</strong> MONIEPOINT MFB</p>
                             <p style="margin: 3px 0;"><strong>Account Number:</strong> 5079537285</p>
                             <p style="margin: 3px 0;"><strong>Account Name:</strong> NEXTEL</p>
