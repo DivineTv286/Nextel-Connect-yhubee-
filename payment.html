@@ -102,7 +102,7 @@
             font-size: 0.8rem;
             color: #4b5563;
             line-height: 1.4;
-            margin-bottom: 12px;
+            margin-bottom: 0;
         }
         .sheet-subtitle strong {
             color: #4338ca;
@@ -238,10 +238,10 @@
             <i class="fas fa-clock"></i> Secure session expires in: <span class="timer-counter" id="paymentTimer">10:00</span>
         </div>
 
-        <!-- Premium White Sheet Layout Block -->
+        <!-- Clean White Sheet Panel Component -->
         <div class="bank-info-sheet">
             <div class="sheet-greeting" id="personalGreeting">Hello Team! 👋</div>
-            <div class="sheet-subtitle" id="instructionSubtitle">You can now complete your payment using the account details below</div>
+            <div class="sheet-subtitle" id="instructionSubtitle">You can now complete your payment using the account details below.</div>
         </div>
 
         <!-- Dynamic Fee Display Box -->
@@ -257,7 +257,7 @@
         <div class="bank-details-box">
             <div class="account-block">
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="badge bg-secondary text-white font-monospace" style="font-size: 0.65rem; background-color: rgba(255,255,255,0.1) !important;">OPERATING ACCOUNT</span>
+                    <span class="badge bg-secondary text-white font-monospace" style="font-size: 0.65rem; background-color: rgba(255,255,255,0.1) !important;">MAIN OPERATING ACCOUNT</span>
                 </div>
 
                 <div class="detail-row">
@@ -321,7 +321,7 @@
     }
 
     document.getElementById("personalGreeting").textContent = `Hello, ${userName}! 👋`;
-    document.getElementById("instructionSubtitleinnerHTML") = `Hello <strong>${userName}</strong> u can now complete your payment using the account details below`;
+    document.getElementById("instructionSubtitle").innerHTML = `Hello <strong>${userName}</strong>, u can now complete your payment using the account details below`;
 
     document.getElementById("copyAmountBtn").setAttribute("onclick", `copyToClipboard('${rawAmount}', 'Amount copied!')`);
 
@@ -329,8 +329,7 @@
     const encodedText = encodeURIComponent(baseText);
     document.getElementById("telegramLink").href = `https://t.me/Nextelsupportt?text=${encodedText}`;
 
-
-    // Standard 10 Minute Payment Session Countdown Script
+    // Standard 10 Minute Payment Session Countdown Script Fixed
     let durationSeconds = 10 * 60;
     const timerDisplay = document.getElementById("paymentTimer");
     
@@ -338,15 +337,17 @@
         let minutes = Math.floor(durationSeconds / 60);
         let seconds = durationSeconds % 60;
 
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
+        let displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+        let displaySeconds = seconds < 10 ? "0" + seconds : seconds;
 
-        timerDisplay.textContent = `${minutes}:${seconds}`;
+        timerDisplay.textContent = `${displayMinutes}:${displaySeconds}`;
 
-        if (--durationSeconds < 0) {
+        if (durationSeconds <= 0) {
             clearInterval(countdownInterval);
             timerDisplay.textContent = "EXPIRED";
             timerDisplay.style.background = "#ef4444";
+        } else {
+            durationSeconds--;
         }
     }, 1000);
 
