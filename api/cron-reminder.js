@@ -1,6 +1,4 @@
-// api/cron-reminder.js
 export default async function handler(req, res) {
-    // Optional: Secure your cron endpoint so outsiders can't trigger it manually
     const authHeader = req.headers.authorization;
     if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
         return res.status(401).json({ success: false, message: 'Unauthorized' });
@@ -10,8 +8,6 @@ export default async function handler(req, res) {
         const apiKey = process.env.BREVO_API_KEY;
         const senderEmail = process.env.SENDER_EMAIL || "raphealemmanuel411@gmail.com";
 
-        // Step: You can trigger a transactional email or use Brevo's batch sending API
-        // For example, fetching contacts from Brevo and sending them a reminder email:
         const contactsResponse = await fetch('https://api.brevo.com/v3/contacts', {
             method: 'GET',
             headers: {
@@ -22,8 +18,7 @@ export default async function handler(req, res) {
 
         const contactsData = await contactsResponse.json();
         const users = contactsData.contacts || [];
-
-        // Loop through users to send the daily reminder
+        
         for (const user of users) {
             const attributes = user.attributes || {};
             const fullName = `${attributes.FIRSTNAME || ''} ${attributes.LASTNAME || ''}`.trim() || 'Valued User';
