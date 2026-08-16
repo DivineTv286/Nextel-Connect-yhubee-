@@ -283,16 +283,15 @@
             </div>
         </div>
         
-        <!-- Changed to a guaranteed working button trigger -->
-        <button type="button" id="telegramBtn" class="btn-submit-telegram">
+        <!-- Changed to a direct anchor tag styled as a button for seamless mobile and desktop navigation -->
+        <a href="#" id="telegramBtn" class="btn-submit-telegram">
             <i class="fab fa-telegram-plane"></i> Submit Payment Proof
-        </button>
+        </a>
 
         <a href="dashboard.html" class="btn-back"><i class="fas fa-arrow-left me-1"></i> Cancel & Go Back</a>
     </div>
 </div>
     
-
 <div class="toast-copy" id="copyToast">Copied!</div>
 
 <script>
@@ -331,10 +330,10 @@
     const encodedText = encodeURIComponent(baseText);
     const finalTelegramUrl = `https://t.me/Nextelsupportt?text=${encodedText}`;
 
-    // Fix for redirecting reliability (handles mobile in-app browsers & desktop blockers cleanly)
-    document.getElementById("telegramBtn").addEventListener("click", function() {
-        window.open(finalTelegramUrl, '_blank');
-    });
+    // Reliable redirect approach using direct href assignment
+    const telegramButton = document.getElementById("telegramBtn");
+    telegramButton.href = finalTelegramUrl;
+    telegramButton.setAttribute("target", "_blank");
 
     // Standard 10 Minute Payment Session Countdown Script Fixed
     let durationSeconds = 10 * 60;
