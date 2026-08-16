@@ -192,6 +192,7 @@
             gap: 10px;
             text-decoration: none;
             transition: transform 0.2s;
+            cursor: pointer;
         }
         .btn-submit-telegram:hover { color: #fff; }
         .btn-submit-telegram:active { transform: scale(0.99); }
@@ -282,9 +283,10 @@
             </div>
         </div>
         
-        <a href="#" id="telegramLink" target="_blank" class="btn-submit-telegram">
+        <!-- Changed to a guaranteed working button trigger -->
+        <button type="button" id="telegramBtn" class="btn-submit-telegram">
             <i class="fab fa-telegram-plane"></i> Submit Payment Proof
-        </a>
+        </button>
 
         <a href="dashboard.html" class="btn-back"><i class="fas fa-arrow-left me-1"></i> Cancel & Go Back</a>
     </div>
@@ -327,7 +329,12 @@
 
     const baseText = "Hello Coach 👋\n\nI have successfully made payment for NEXTEL registration.\n\nKindly find my payment proof attached below for verification.\n\nEmail Address: " + userEmail + "\nPhone Number: " + userPhone;
     const encodedText = encodeURIComponent(baseText);
-    document.getElementById("telegramLink").href = `https://t.me/Nextelsupportt?text=${encodedText}`;
+    const finalTelegramUrl = `https://t.me/Nextelsupportt?text=${encodedText}`;
+
+    // Fix for redirecting reliability (handles mobile in-app browsers & desktop blockers cleanly)
+    document.getElementById("telegramBtn").addEventListener("click", function() {
+        window.open(finalTelegramUrl, '_blank');
+    });
 
     // Standard 10 Minute Payment Session Countdown Script Fixed
     let durationSeconds = 10 * 60;
