@@ -244,8 +244,10 @@
             clearInterval(countdownInterval);
             timerDisplay.textContent = "EXPIRED";
             timerDisplay.style.background = "#ef4444";
-            document.getElementById("squadPayBtn").style.pointerEvents = "none";
-            document.getElementById("squadPayBtnstyle.opacity = "0.5";
+            
+            const payBtn = document.getElementById("squadPayBtn");
+            payBtn.style.pointerEvents = "none";
+            payBtn.style.opacity = "0.5";
         } else {
             durationSeconds--;
         }
