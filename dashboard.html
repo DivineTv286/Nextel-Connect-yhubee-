@@ -905,7 +905,14 @@
             },
             buttonsStyling: false
         }).then((result) => {
-            if (result.isConfirmed) { window.location.href = "payment.html"; }
+            if (result.isConfirmed) { 
+                // Dynamically route based on selected plan or fallback to payment.html
+                if (localUserData && localUserData.planName === "Nextel Lite") {
+                    window.location.href = "https://pay.squadco.com/1HDGUM";
+                } else {
+                    window.location.href = "https://pay.squadco.com/HJ1E1G";
+                }
+            }
         });
     });
 
