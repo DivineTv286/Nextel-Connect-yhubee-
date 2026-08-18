@@ -60,7 +60,6 @@
             color: var(--green-light);
         }
 
-        /* --- Payment Timer Sheet Component --- */
         .timer-strip {
             background: rgba(239, 68, 68, 0.1);
             border: 1px dashed rgba(239, 68, 68, 0.3);
@@ -83,7 +82,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* --- Supported Bank Sheet Panel Component --- */
         .bank-info-sheet {
             background: #ffffff;
             color: #111827;
@@ -129,53 +127,26 @@
             margin: 4px 0;
         }
 
-        .bank-details-box {
-            background: var(--dark-card);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 16px;
-            padding: 18px;
-            margin-bottom: 24px;
-        }
-
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .detail-row:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-
-        .detail-label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-        .detail-value {
-            font-size: 0.92rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-copy-small {
-            background: rgba(255, 255, 255, 0.06);
+        .btn-submit-squad {
+            background: linear-gradient(135deg, #25a060, #1b7a49);
+            color: #fff;
             border: none;
-            color: var(--text-muted);
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            transition: all 0.2s;
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: transform 0.2s;
+            cursor: pointer;
+            margin-bottom: 12px;
         }
-        .btn-copy-small:hover {
-            background: rgba(201, 168, 76, 0.15);
-            color: var(--gold);
-        }
+        .btn-submit-squad:hover { color: #fff; }
+        .btn-submit-squad:active { transform: scale(0.99); }
 
         .btn-submit-telegram {
             background: linear-gradient(135deg, #24A1DE, #1d82b2);
@@ -186,6 +157,7 @@
             border-radius: 14px;
             font-weight: 700;
             font-size: 0.95rem;
+            display: links;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -205,23 +177,6 @@
             font-size: 0.82rem;
             margin-top: 16px;
         }
-
-        .toast-copy {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--gold);
-            color: #071a0f;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-            z-index: 1000;
-        }
     </style>
 </head>
 <body>
@@ -234,68 +189,37 @@
             <span class="badge bg-warning text-dark font-monospace" style="font-size: 0.7rem; font-weight: 700;">WORKSPACE ACTIVATION</span>
         </div>
 
-        <!-- Visual Urgency Payment Countdown Timer Block -->
         <div class="timer-strip">
             <i class="fas fa-clock"></i> Secure session expires in: <span class="timer-counter" id="paymentTimer">10:00</span>
         </div>
 
-        <!-- Clean White Sheet Panel Component -->
         <div class="bank-info-sheet">
             <div class="sheet-greeting" id="personalGreeting">Hello Team! 👋</div>
-            <div class="sheet-subtitle" id="instructionSubtitle">You can now complete your payment using the account details below.</div>
+            <div class="sheet-subtitle" id="instructionSubtitle">Complete your online payment securely via Squadco below.</div>
         </div>
 
-        <!-- Dynamic Fee Display Box -->
         <div class="amount-display">
-            <div class="amount-label">Required Deposit Amount</div>
+            <div class="amount-label">Required Package Fee</div>
             <div class="amount-val" id="amountText">₦17,500.00</div>
-            <button class="btn-copy-small mt-1" id="copyAmountBtn">
-                <i class="far fa-copy"></i> Copy Amount
-            </button>
-        </div>
-
-        <!-- System Account Matrix -->
-        <div class="bank-details-box">
-            <div class="account-block">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="badge bg-secondary text-white font-monospace" style="font-size: 0.65rem; background-color: rgba(255,255,255,0.1) !important;">MAIN OPERATING ACCOUNT</span>
-                </div>
-
-                <div class="detail-row">
-                    <span class="detail-label">Bank Name</span>
-                    <span class="detail-value text-info font-monospace">MONIEPOINT MFB</span>
-                </div>
-                
-                <div class="detail-row">
-                    <span class="detail-label">Account Number</span>
-                    <span class="detail-value font-monospace">
-                        3000833280
-                        <button class="btn-copy-small" onclick="copyToClipboard('3000833280', 'Account number copied!')">
-                            <i class="far fa-copy"></i>
-                        </button>
-                    </span>
-                </div>
-
-                <div class="detail-row">
-                    <span class="detail-label">Account Name</span>
-                    <span class="detail-value text-white-50" style="font-size: 0.85rem;">BLESSING JOSEPH EKANEM</span>
-                </div>
-            </div>
         </div>
         
-        <!-- Button converted back to programmatic click trigger with explicit fallback logic -->
+        <!-- Dynamic Squadco Payment Button -->
+        <a href="#" id="squadPayBtn" target="_blank" class="btn-submit-squad">
+            <i class="fas fa-credit-card"></i> Pay Online with Squadco
+        </a>
+
+        <!-- Telegram Verification Button -->
         <button type="button" id="telegramBtn" class="btn-submit-telegram">
-            <i class="fab fa-telegram-plane"></i> Submit Payment Proof
+            <i class="fab fa-telegram-plane"></i> I've Paid - Submit on Telegram
         </button>
 
         <a href="dashboard.html" class="btn-back"><i class="fas fa-arrow-left me-1"></i> Cancel & Go Back</a>
     </div>
 </div>
-    
-<div class="toast-copy" id="copyToast">Copied!</div>
 
 <script>
     let rawAmount = "17500"; 
+    let selectedSquadLink = "https://pay.squadco.com/HJ1E1G"; // Default Standard Plan Link
     let userEmail = "";
     let userPhone = "";
     let userName = "Team";
@@ -307,6 +231,7 @@
             
             if (localUserData.planName === "Nextel Lite") {
                 rawAmount = "10500";
+                selectedSquadLink = "https://pay.squadco.com/1HDGUM"; // Nextel Lite Link
                 document.getElementById("amountText").textContent = "₦10,500.00";
             }
             
@@ -322,19 +247,19 @@
     }
 
     document.getElementById("personalGreeting").textContent = `Hello, ${userName}! 👋`;
-    document.getElementById("instructionSubtitle").innerHTML = `Hello <strong>${userName}</strong>, u can now complete your payment using the account details below`;
+    document.getElementById("instructionSubtitle").innerHTML = `Hello <strong>${userName}</strong>, click the button below to complete your payment securely.`;
 
-    document.getElementById("copyAmountBtn").setAttribute("onclick", `copyToClipboard('${rawAmount}', 'Amount copied!')`);
+    // Set the dynamic href for Squadco checkout
+    document.getElementById("squadPayBtn.href") // Wait, fix assignment:
+    document.getElementById("squadPayBtn").href = selectedSquadLink;
 
-    const baseText = "Hello Coach 👋\n\nI have successfully made payment for NEXTEL registration.\n\nKindly find my payment proof attached below for verification.\n\nEmail Address: " + userEmail + "\nPhone Number: " + userPhone;
+    const baseText = "Hello Coach 👋\n\nI have successfully made payment via Squadco for NEXTEL registration.\n\nKindly verify my payment.\n\nEmail Address: " + userEmail + "\nPhone Number: " + userPhone;
     const encodedText = encodeURIComponent(baseText);
     
-    // Explicit URLs for both App Scheme and Web Fallback
     const telegramAppUrl = `tg://resolve?domain=Nextelsupportt&text=${encodedText}`;
     const telegramWebUrl = `https://t.me/Nextelsupportt?text=${encodedText}`;
 
     document.getElementById("telegramBtn").addEventListener("click", function() {
-        // Try opening the native app first; if it fails or isn't installed, fall back to browser link
         let windowOpened = window.open(telegramAppUrl, '_blank');
         
         setTimeout(() => {
@@ -346,7 +271,6 @@
         }, 500);
     });
 
-    // Standard 10 Minute Payment Session Countdown Script Fixed
     let durationSeconds = 10 * 60;
     const timerDisplay = document.getElementById("paymentTimer");
     
@@ -367,17 +291,6 @@
             durationSeconds--;
         }
     }, 1000);
-
-    function copyToClipboard(textValue, successMessage) {
-        navigator.clipboard.writeText(textValue).then(() => {
-            const toast = document.getElementById("copyToast");
-            toast.textContent = successMessage;
-            toast.style.opacity = "1";
-            setTimeout(() => { toast.style.opacity = "0"; }, 1800);
-        }).catch(err => {
-            console.error('Could not copy text context variables', err);
-        });
-    }
 </script>
 </body>
 </html>
