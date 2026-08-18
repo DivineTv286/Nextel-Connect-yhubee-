@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activate Account - Nextel Connect</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/logo.png">
+    <link rel="shortcut icon" href="assets/logo.png">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
@@ -60,6 +62,7 @@
             color: var(--green-light);
         }
 
+        /* --- Payment Timer Sheet Component --- */
         .timer-strip {
             background: rgba(239, 68, 68, 0.1);
             border: 1px dashed rgba(239, 68, 68, 0.3);
@@ -82,6 +85,7 @@
             letter-spacing: 0.5px;
         }
 
+        /* --- Supported Bank Sheet Panel Component --- */
         .bank-info-sheet {
             background: #ffffff;
             color: #111827;
@@ -112,7 +116,7 @@
             border-radius: 16px;
             padding: 16px;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         .amount-label {
             font-size: 0.75rem;
@@ -127,8 +131,8 @@
             margin: 4px 0;
         }
 
-        .btn-submit-squad {
-            background: linear-gradient(135deg, #25a060, #1b7a49);
+        .btn-proceed-pay {
+            background: linear-gradient(135deg, var(--green-light), #1b7a48);
             color: #fff;
             border: none;
             width: 100%;
@@ -141,33 +145,11 @@
             justify-content: center;
             gap: 10px;
             text-decoration: none;
-            transition: transform 0.2s;
-            cursor: pointer;
-            margin-bottom: 12px;
-        }
-        .btn-submit-squad:hover { color: #fff; }
-        .btn-submit-squad:active { transform: scale(0.99); }
-
-        .btn-submit-telegram {
-            background: linear-gradient(135deg, #24A1DE, #1d82b2);
-            color: #fff;
-            border: none;
-            width: 100%;
-            padding: 14px;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            display: links;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            text-decoration: none;
-            transition: transform 0.2s;
+            transition: transform 0.2s, opacity 0.2s;
             cursor: pointer;
         }
-        .btn-submit-telegram:hover { color: #fff; }
-        .btn-submit-telegram:active { transform: scale(0.99); }
+        .btn-proceed-pay:hover { color: #fff; opacity: 0.95; }
+        .btn-proceed-pay:active { transform: scale(0.99); }
 
         .btn-back {
             display: block;
@@ -189,29 +171,27 @@
             <span class="badge bg-warning text-dark font-monospace" style="font-size: 0.7rem; font-weight: 700;">WORKSPACE ACTIVATION</span>
         </div>
 
+        <!-- Visual Urgency Payment Countdown Timer Block -->
         <div class="timer-strip">
             <i class="fas fa-clock"></i> Secure session expires in: <span class="timer-counter" id="paymentTimer">10:00</span>
         </div>
 
+        <!-- Clean White Sheet Panel Component -->
         <div class="bank-info-sheet">
             <div class="sheet-greeting" id="personalGreeting">Hello Team! 👋</div>
-            <div class="sheet-subtitle" id="instructionSubtitle">Complete your online payment securely via Squadco below.</div>
+            <div class="sheet-subtitle" id="instructionSubtitle">You can now complete your secure automated payment below.</div>
         </div>
 
+        <!-- Dynamic Fee Display Box -->
         <div class="amount-display">
             <div class="amount-label">Required Package Fee</div>
             <div class="amount-val" id="amountText">₦17,500.00</div>
         </div>
         
-        <!-- Dynamic Squadco Payment Button -->
-        <a href="#" id="squadPayBtn" target="_blank" class="btn-submit-squad">
-            <i class="fas fa-credit-card"></i> Pay Online with Squadco
+        <!-- Automated Squadco Payment Gateway Button -->
+        <a href="#" id="squadPayBtn" target="_blank" class="btn-proceed-pay">
+            <i class="fas fa-shield-alt"></i> Proceed to Secure Payment
         </a>
-
-        <!-- Telegram Verification Button -->
-        <button type="button" id="telegramBtn" class="btn-submit-telegram">
-            <i class="fab fa-telegram-plane"></i> I've Paid - Submit on Telegram
-        </button>
 
         <a href="dashboard.html" class="btn-back"><i class="fas fa-arrow-left me-1"></i> Cancel & Go Back</a>
     </div>
@@ -219,10 +199,8 @@
 
 <script>
     let rawAmount = "17500"; 
-    let selectedSquadLink = "https://pay.squadco.com/HJ1E1G"; // Default Standard Plan Link
-    let userEmail = "";
-    let userPhone = "";
     let userName = "Team";
+    let squadPaymentUrl = "https://pay.squadco.com/HJ1E1G"; // Default 17,500 link
 
     try {
         const rawData = sessionStorage.getItem("nxt_user");
@@ -231,46 +209,25 @@
             
             if (localUserData.planName === "Nextel Lite") {
                 rawAmount = "10500";
-                selectedSquadLink = "https://pay.squadco.com/1HDGUM"; // Nextel Lite Link
                 document.getElementById("amountText").textContent = "₦10,500.00";
+                squadPaymentUrl = "https://pay.squadco.com/1HDGUM"; // 10,500 link
             }
             
             if (localUserData.username) {
                 userName = localUserData.username;
             }
-            
-            userEmail = localUserData.email || "";
-            userPhone = localUserData.phone || "";
         }
     } catch(e) {
         console.error("Failed parsing storage context session indicators", e);
     }
 
     document.getElementById("personalGreeting").textContent = `Hello, ${userName}! 👋`;
-    document.getElementById("instructionSubtitle").innerHTML = `Hello <strong>${userName}</strong>, click the button below to complete your payment securely.`;
+    document.getElementById("instructionSubtitle").innerHTML = `Hello <strong>${userName}</strong>, click the button below to complete your payment securely via Squadco.`;
 
-    // Set the dynamic href for Squadco checkout
-    document.getElementById("squadPayBtn.href") // Wait, fix assignment:
-    document.getElementById("squadPayBtn").href = selectedSquadLink;
+    // Bind the correct Squadco link to the button
+    document.getElementById("squadPayBtn").setAttribute("href", squadPaymentUrl);
 
-    const baseText = "Hello Coach 👋\n\nI have successfully made payment via Squadco for NEXTEL registration.\n\nKindly verify my payment.\n\nEmail Address: " + userEmail + "\nPhone Number: " + userPhone;
-    const encodedText = encodeURIComponent(baseText);
-    
-    const telegramAppUrl = `tg://resolve?domain=Nextelsupportt&text=${encodedText}`;
-    const telegramWebUrl = `https://t.me/Nextelsupportt?text=${encodedText}`;
-
-    document.getElementById("telegramBtn").addEventListener("click", function() {
-        let windowOpened = window.open(telegramAppUrl, '_blank');
-        
-        setTimeout(() => {
-            if (!windowOpened || windowOpened.closed || typeof windowOpened.closed == 'undefined') {
-                window.location.href = telegramWebUrl;
-            } else {
-                window.location.href = telegramWebUrl;
-            }
-        }, 500);
-    });
-
+    // Standard 10 Minute Payment Session Countdown Script
     let durationSeconds = 10 * 60;
     const timerDisplay = document.getElementById("paymentTimer");
     
@@ -287,6 +244,8 @@
             clearInterval(countdownInterval);
             timerDisplay.textContent = "EXPIRED";
             timerDisplay.style.background = "#ef4444";
+            document.getElementById("squadPayBtn").style.pointerEvents = "none";
+            document.getElementById("squadPayBtnstyle.opacity = "0.5";
         } else {
             durationSeconds--;
         }
