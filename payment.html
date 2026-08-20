@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activate Account - Nextel Connect</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/logo.png">
-    <link rel="shortcut icon" href="assets/logo.png">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
@@ -104,7 +102,7 @@
             font-size: 0.8rem;
             color: #4b5563;
             line-height: 1.4;
-            margin-bottom: 0;
+            margin-bottom: 12px;
         }
         .sheet-subtitle strong {
             color: #4338ca;
@@ -116,7 +114,7 @@
             border-radius: 16px;
             padding: 16px;
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         .amount-label {
             font-size: 0.75rem;
@@ -131,8 +129,56 @@
             margin: 4px 0;
         }
 
-        .btn-proceed-pay {
-            background: linear-gradient(135deg, var(--green-light), #1b7a48);
+        .bank-details-box {
+            background: var(--dark-card);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 24px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .detail-row:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .detail-value {
+            font-size: 0.92rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-copy-small {
+            background: rgba(255, 255, 255, 0.06);
+            border: none;
+            color: var(--text-muted);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+        .btn-copy-small:hover {
+            background: rgba(201, 168, 76, 0.15);
+            color: var(--gold);
+        }
+
+        .btn-submit-telegram {
+            background: linear-gradient(135deg, #24A1DE, #1d82b2);
             color: #fff;
             border: none;
             width: 100%;
@@ -145,11 +191,10 @@
             justify-content: center;
             gap: 10px;
             text-decoration: none;
-            transition: transform 0.2s, opacity 0.2s;
-            cursor: pointer;
+            transition: transform 0.2s;
         }
-        .btn-proceed-pay:hover { color: #fff; opacity: 0.95; }
-        .btn-proceed-pay:active { transform: scale(0.99); }
+        .btn-submit-telegram:hover { color: #fff; }
+        .btn-submit-telegram:active { transform: scale(0.99); }
 
         .btn-back {
             display: block;
@@ -158,6 +203,23 @@
             text-decoration: none;
             font-size: 0.82rem;
             margin-top: 16px;
+        }
+
+        .toast-copy {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold);
+            color: #071a0f;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1000;
         }
     </style>
 </head>
@@ -176,31 +238,66 @@
             <i class="fas fa-clock"></i> Secure session expires in: <span class="timer-counter" id="paymentTimer">10:00</span>
         </div>
 
-        <!-- Clean White Sheet Panel Component -->
+        <!-- Premium White Sheet Layout Block -->
         <div class="bank-info-sheet">
             <div class="sheet-greeting" id="personalGreeting">Hello Team! 👋</div>
-            <div class="sheet-subtitle" id="instructionSubtitle">You can now complete your secure automated payment below.</div>
+            <div class="sheet-subtitle" id="instructionSubtitle">You can now complete your payment using the account details below</div>
         </div>
 
         <!-- Dynamic Fee Display Box -->
         <div class="amount-display">
-            <div class="amount-label">Required Package Fee</div>
+            <div class="amount-label">Required Deposit Amount</div>
             <div class="amount-val" id="amountText">₦17,500.00</div>
+            <button class="btn-copy-small mt-1" id="copyAmountBtn">
+                <i class="far fa-copy"></i> Copy Amount
+            </button>
+        </div>
+
+        <!-- System Account Matrix -->
+        <div class="bank-details-box">
+            <div class="account-block">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-secondary text-white font-monospace" style="font-size: 0.65rem; background-color: rgba(255,255,255,0.1) !important;">OPERATING ACCOUNT</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Bank Name</span>
+                    <span class="detail-value text-info font-monospace">STERLING BANK</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Account Number</span>
+                    <span class="detail-value font-monospace">
+                        9710762021
+                        <button class="btn-copy-small" onclick="copyToClipboard('9710762021', 'Account number copied!')">
+                            <i class="far fa-copy"></i>
+                        </button>
+                    </span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="detail-label">Account Name</span>
+                    <span class="detail-value text-white-50" style="font-size: 0.85rem;">OMINIPAY LIMITED/UWAKMFON AKPANOWO - NEXTEL</span>
+                </div>
+            </div>
         </div>
         
-        <!-- Automated Squadco Payment Gateway Button -->
-        <a href="#" id="squadPayBtn" target="_blank" class="btn-proceed-pay">
-            <i class="fas fa-shield-alt"></i> Proceed to Secure Payment
+        <a href="#" id="telegramLink" target="_blank" class="btn-submit-telegram">
+            <i class="fab fa-telegram-plane"></i> Submit Payment Proof
         </a>
 
         <a href="dashboard.html" class="btn-back"><i class="fas fa-arrow-left me-1"></i> Cancel & Go Back</a>
     </div>
 </div>
+    
+
+<div class="toast-copy" id="copyToast">Copied!</div>
 
 <script>
     let rawAmount = "17500"; 
+    let userEmail = "";
+    let userPhone = "";
     let userName = "Team";
-    let squadPaymentUrl = "https://pay.squadco.com/HJ1E1G"; // Default 17,500 link
 
     try {
         const rawData = sessionStorage.getItem("nxt_user");
@@ -210,22 +307,28 @@
             if (localUserData.planName === "Nextel Lite") {
                 rawAmount = "10500";
                 document.getElementById("amountText").textContent = "₦10,500.00";
-                squadPaymentUrl = "https://pay.squadco.com/1HDGUM"; // 10,500 link
             }
             
             if (localUserData.username) {
                 userName = localUserData.username;
             }
+            
+            userEmail = localUserData.email || "";
+            userPhone = localUserData.phone || "";
         }
     } catch(e) {
         console.error("Failed parsing storage context session indicators", e);
     }
 
     document.getElementById("personalGreeting").textContent = `Hello, ${userName}! 👋`;
-    document.getElementById("instructionSubtitle").innerHTML = `Hello <strong>${userName}</strong>, click the button below to complete your payment securely via Squadco.`;
+    document.getElementById("instructionSubtitle").innerHTML = `Hello <strong>${userName}</strong> u can now complete your payment using the account details below`;
 
-    // Bind the correct Squadco link to the button
-    document.getElementById("squadPayBtn").setAttribute("href", squadPaymentUrl);
+    document.getElementById("copyAmountBtn").setAttribute("onclick", `copyToClipboard('${rawAmount}', 'Amount copied!')`);
+
+    const baseText = "Hello Coach 👋\n\nI have successfully made payment for NEXTEL registration.\n\nKindly find my payment proof attached below for verification.\n\nEmail Address: " + userEmail + "\nPhone Number: " + userPhone;
+    const encodedText = encodeURIComponent(baseText);
+    document.getElementById("telegramLink").href = `http://t.me/Trustedwakiee?text=${encodedText}`;
+
 
     // Standard 10 Minute Payment Session Countdown Script
     let durationSeconds = 10 * 60;
@@ -235,23 +338,28 @@
         let minutes = Math.floor(durationSeconds / 60);
         let seconds = durationSeconds % 60;
 
-        let displayMinutes = minutes < 10 ? "0" + minutes : minutes;
-        let displaySeconds = seconds < 10 ? "0" + seconds : seconds;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        timerDisplay.textContent = `${displayMinutes}:${displaySeconds}`;
+        timerDisplay.textContent = `${minutes}:${seconds}`;
 
-        if (durationSeconds <= 0) {
+        if (--durationSeconds < 0) {
             clearInterval(countdownInterval);
             timerDisplay.textContent = "EXPIRED";
             timerDisplay.style.background = "#ef4444";
-            
-            const payBtn = document.getElementById("squadPayBtn");
-            payBtn.style.pointerEvents = "none";
-            payBtn.style.opacity = "0.5";
-        } else {
-            durationSeconds--;
         }
     }, 1000);
+
+    function copyToClipboard(textValue, successMessage) {
+        navigator.clipboard.writeText(textValue).then(() => {
+            const toast = document.getElementById("copyToast");
+            toast.textContent = successMessage;
+            toast.style.opacity = "1";
+            setTimeout(() => { toast.style.opacity = "0"; }, 1800);
+        }).catch(err => {
+            console.error('Could not copy text context variables', err);
+        });
+    }
 </script>
 </body>
 </html>
