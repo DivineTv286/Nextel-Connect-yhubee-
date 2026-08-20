@@ -108,6 +108,31 @@
             color: #4338ca;
         }
 
+        /* --- Friendly OPay Warning Box Component --- */
+        .opay-warning-box {
+            background: rgba(201, 168, 76, 0.08);
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .opay-warning-box i {
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-top: 2px;
+        }
+        .opay-warning-text {
+            font-size: 0.77rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.4;
+        }
+        .opay-warning-text strong {
+            color: var(--gold);
+        }
+
         .amount-display {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.06);
@@ -244,6 +269,14 @@
             <div class="sheet-subtitle" id="instructionSubtitle">You can now complete your payment using the account details below</div>
         </div>
 
+        <!-- Friendly OPay / App Notice Component -->
+        <div class="opay-warning-box">
+            <i class="fas fa-lightbulb"></i>
+            <div class="opay-warning-text">
+                <strong>Quick Tip for OPay Users:</strong> If you're paying via OPay, Palmpay, or other apps, please double-check that the recipient name reads <strong>NEXTEL ESIM</strong> before confirming. Also, ensure your transfer is fully completed to avoid network delays!
+            </div>
+        </div>
+
         <!-- Dynamic Fee Display Box -->
         <div class="amount-display">
             <div class="amount-label">Required Deposit Amount</div>
@@ -290,7 +323,6 @@
     </div>
 </div>
     
-
 <div class="toast-copy" id="copyToast">Copied!</div>
 
 <script>
@@ -328,7 +360,6 @@
     const baseText = "Hello Coach 👋\n\nI have successfully made payment for NEXTEL registration.\n\nKindly find my payment proof attached below for verification.\n\nEmail Address: " + userEmail + "\nPhone Number: " + userPhone;
     const encodedText = encodeURIComponent(baseText);
     document.getElementById("telegramLink").href = `http://t.me/Nextelsupportt?text=${encodedText}`;
-
 
     // Standard 10 Minute Payment Session Countdown Script
     let durationSeconds = 10 * 60;
