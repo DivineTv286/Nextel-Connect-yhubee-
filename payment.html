@@ -222,9 +222,9 @@
             z-index: 1000;
         }
 
-        /* Custom Modal Styling to match dark/gold theme */
+        /* --- Custom Modal Styles --- */
         .modal-content {
-            background: linear-gradient(145deg, #0b2516, #071a0f);
+            background: #0d2b1a;
             border: 1px solid rgba(201, 168, 76, 0.3);
             border-radius: 20px;
             color: #fff;
@@ -303,31 +303,29 @@
         <a href="dashboard.html" class="btn-back"><i class="fas fa-arrow-left me-1"></i> Cancel & Go Back</a>
     </div>
 </div>
-
-<!-- Friendly OPay Notice Modal -->
+    
+<!-- Friendly OPay Warning Modal Popup -->
 <div class="modal fade" id="opayWarningModal" tabindex="-1" aria-labelledby="opayWarningModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content p-2">
             <div class="modal-header border-0 pb-0">
                 <h5 class="modal-title fw-bold text-warning" id="opayWarningModalLabel">
-                    <i class="fas fa-info-circle me-2"></i> Quick Tip for OPay Users 💡
+                    <i class="fas fa-triangle-exclamation me-2"></i> Important Payment Notice
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <p class="text-white-50 mb-3" style="font-size: 0.9rem; line-height: 1.5;">
-                    Hey there! If you are making your transfer using <strong class="text-white">OPay</strong> or other mobile apps, network glitches sometimes delay notifications. 
-                </p>
-                <div class="p-3 rounded" style="background: rgba(201, 168, 76, 0.1); border: 1px dashed rgba(201, 168, 76, 0.4);">
-                    <ul class="mb-0 ps-3 text-white" style="font-size: 0.85rem; line-height: 1.6;">
-                        <li>Ensure you copy the exact amount shown (₦17,500 or ₦10,500).</li>
-                        <li>After transferring, click the <strong>Submit Payment Proof</strong> button to send your receipt instantly.</li>
-                    </ul>
+            <div class="modal-body text-center py-4">
+                <div class="mb-3 text-warning" style="font-size: 2.5rem;">
+                    <i class="fas fa-shield-halved"></i>
                 </div>
+                <h6 class="fw-bold mb-3 text-white">Please avoid using OPay for this transfer!</h6>
+                <p class="text-white-50 small mb-0" style="line-height: 1.6;">
+                    To ensure your workspace activation is credited instantly without delays, kindly use another commercial bank (like GTBank, Access, Zenith, Moniepoint, etc.) instead of OPay. Thank you for your cooperation! 💚
+                </p>
             </div>
-            <div class="modal-footer border-0 pt-0">
-                <button type="button" class="btn btn-warning w-100 fw-bold py-2 rounded-pill" data-bs-dismiss="modal" style="background-color: var(--gold); border: none;">
-                    Got it, let's proceed! 🚀
+            <div class="modal-footer border-0 pt-0 justify-content-center">
+                <button type="button" class="btn btn-warning w-100 fw-bold py-2 rounded-pill text-dark" data-bs-dismiss="modal">
+                    Understood, Let's Proceed 👍
                 </button>
             </div>
         </div>
@@ -336,11 +334,11 @@
 
 <div class="toast-copy" id="copyToast">Copied!</div>
 
-<!-- Bootstrap JS CDN (Required for Modal functionality) -->
+<!-- Bootstrap JS (Required for Modal functionality) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
 <script>
-    // Automatically trigger the OPay warning modal when page opens
+    // Automatically trigger the OPay Warning Popup on page load
     document.addEventListener("DOMContentLoaded", function() {
         const opayModal = new bootstrap.Modal(document.getElementById('opayWarningModal'));
         opayModal.show();
