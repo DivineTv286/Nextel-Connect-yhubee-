@@ -108,31 +108,6 @@
             color: #4338ca;
         }
 
-        /* --- Friendly OPay Warning Box Component --- */
-        .opay-warning-box {
-            background: rgba(201, 168, 76, 0.08);
-            border: 1px solid rgba(201, 168, 76, 0.3);
-            border-radius: 14px;
-            padding: 12px 14px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-        }
-        .opay-warning-box i {
-            color: var(--gold);
-            font-size: 1.1rem;
-            margin-top: 2px;
-        }
-        .opay-warning-text {
-            font-size: 0.77rem;
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.4;
-        }
-        .opay-warning-text strong {
-            color: var(--gold);
-        }
-
         .amount-display {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.06);
@@ -246,6 +221,20 @@
             pointer-events: none;
             z-index: 1000;
         }
+
+        /* Custom Modal Styling to match dark/gold theme */
+        .modal-content {
+            background: linear-gradient(145deg, #0b2516, #071a0f);
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            border-radius: 20px;
+            color: #fff;
+        }
+        .modal-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .modal-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
     </style>
 </head>
 <body>
@@ -267,14 +256,6 @@
         <div class="bank-info-sheet">
             <div class="sheet-greeting" id="personalGreeting">Hello Team! 👋</div>
             <div class="sheet-subtitle" id="instructionSubtitle">You can now complete your payment using the account details below</div>
-        </div>
-
-        <!-- Friendly OPay / App Notice Component -->
-        <div class="opay-warning-box">
-            <i class="fas fa-lightbulb"></i>
-            <div class="opay-warning-text">
-                <strong>Quick Tip for OPay Users:</strong> If you're paying via OPay, Palmpay, or other apps, please double-check that the recipient name reads <strong>NEXTEL ESIM</strong> before confirming. Also, ensure your transfer is fully completed to avoid network delays!
-            </div>
         </div>
 
         <!-- Dynamic Fee Display Box -->
@@ -322,10 +303,49 @@
         <a href="dashboard.html" class="btn-back"><i class="fas fa-arrow-left me-1"></i> Cancel & Go Back</a>
     </div>
 </div>
-    
+
+<!-- Friendly OPay Notice Modal -->
+<div class="modal fade" id="opayWarningModal" tabindex="-1" aria-labelledby="opayWarningModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-2">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold text-warning" id="opayWarningModalLabel">
+                    <i class="fas fa-info-circle me-2"></i> Quick Tip for OPay Users 💡
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-white-50 mb-3" style="font-size: 0.9rem; line-height: 1.5;">
+                    Hey there! If you are making your transfer using <strong class="text-white">OPay</strong> or other mobile apps, network glitches sometimes delay notifications. 
+                </p>
+                <div class="p-3 rounded" style="background: rgba(201, 168, 76, 0.1); border: 1px dashed rgba(201, 168, 76, 0.4);">
+                    <ul class="mb-0 ps-3 text-white" style="font-size: 0.85rem; line-height: 1.6;">
+                        <li>Ensure you copy the exact amount shown (₦17,500 or ₦10,500).</li>
+                        <li>After transferring, click the <strong>Submit Payment Proof</strong> button to send your receipt instantly.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-warning w-100 fw-bold py-2 rounded-pill" data-bs-dismiss="modal" style="background-color: var(--gold); border: none;">
+                    Got it, let's proceed! 🚀
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="toast-copy" id="copyToast">Copied!</div>
 
+<!-- Bootstrap JS CDN (Required for Modal functionality) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
 <script>
+    // Automatically trigger the OPay warning modal when page opens
+    document.addEventListener("DOMContentLoaded", function() {
+        const opayModal = new bootstrap.Modal(document.getElementById('opayWarningModal'));
+        opayModal.show();
+    });
+
     let rawAmount = "17500"; 
     let userEmail = "";
     let userPhone = "";
