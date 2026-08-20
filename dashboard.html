@@ -571,27 +571,32 @@
 <header class="dashboard-header">
     <div class="container d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center gap-3">
-            <a href="#" target="_blank" class="support-link" title="Contact System Workspace Support">
+            <a href="http://t.me/Trustedwakiee" target="_blank" class="support-link" title="Contact System Workspace Support">
                 <i class="fas fa-headset"></i>
             </a>
-            <a href="dashboard.html" class="brand-text">NEXTEL <span>Connect</span></a>
+            <a href="#" class="brand-text">NEXTEL <span>Connect</span></a>
         </div>
-        <div id="usernameDisplay" class="user-badge">CELESTE</div>
+        <div id="usernameDisplay" class="user-badge">NEXTEL USER</div>
     </div>
 </header>
 
 <main class="container mt-2">
+    <!-- Main Wallet Configuration Grid -->
     <section class="wallet-card">
         <div class="d-flex justify-content-between align-items-center">
             <span class="wallet-title">Your Main Wallet</span>
             <span class="wallet-status">Not Active</span>
         </div>
         <div class="wallet-balance">₦0.00</div>
+
+        <!-- Available Country Line Workspaces -->
         <div class="lines-container">
             <div class="lines-header">
                 <span style="font-size:0.8rem; font-weight:700; color:var(--gold);">Available Country Lines</span>
                 <span style="font-size:0.78rem; color:#4ade80; font-weight:600;">Earn ₦5,000 Per Call</span>
             </div>
+
+            <!-- Tab Toggles for switching environments -->
             <div class="d-flex gap-2 mb-3">
                 <button class="tab-btn active" id="btnUsa" onclick="switchLines('usa')">
                     <i class="fas fa-globe-americas"></i> USA Lines (10)
@@ -600,7 +605,11 @@
                     <i class="fas fa-globe-europe"></i> Belgium Lines (10)
                 </button>
             </div>
+
+            <!-- Dynamic Lines Output List Layout -->
             <div id="linesWrapper"></div>
+
+            <!-- Status action sheet footer for selected calls -->
             <div class="call-status-bar">
                 <div style="font-size: 0.8rem; color: rgba(255,255,255,0.85); max-width: calc(100% - 50px);">
                     <div style="font-weight: 700; color: var(--gold);" id="callStatusMessage">Select a line above to queue a connection</div>
@@ -896,19 +905,13 @@
             },
             buttonsStyling: false
         }).then((result) => {
-            if (result.isConfirmed) { 
-                // Dynamically route based on selected plan or fallback to payment.html
-                if (localUserData && localUserData.planName === "Nextel Lite") {
-                    window.location.href = "https://pay.squadco.com/1HDGUM";
-                } else {
-                    window.location.href = "https://pay.squadco.com/HJ1E1G";
-                }
-            }
+            if (result.isConfirmed) { window.location.href = "payment.html"; }
         });
     });
 
     function triggerLockedNotice() { document.getElementById("activateProfileBtn").click(); }
     switchLines('usa');
 </script>
+
 </body>
 </html>
