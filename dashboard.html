@@ -307,7 +307,7 @@
             justify-content: space-between;
         }
 
-        /* Front Side Styling (From IMG_20260701_112046_363.jpg) */
+        /* Front Side Styling */
         .esim-front {
             background: linear-gradient(135deg, #0b2f19, #05180d);
         }
@@ -401,7 +401,7 @@
         .esim-value.gold { color: #a3e635; }
         .esim-value.success { color: #4ade80; }
 
-        /* Back Side Styling (From Screenshot_20260701-120257_Telegram.jpg) */
+        /* Back Side Styling */
         .esim-back {
             background: linear-gradient(135deg, #051c0f, #020d07);
             transform: rotateY(180deg);
@@ -571,99 +571,22 @@
 <header class="dashboard-header">
     <div class="container d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center gap-3">
-            <a href="dashboard.html" target="_blank" class="support-link" title="Contact System Workspace Support">
+            <a href="http://t.me/Trustedwakiee" target="_blank" class="support-link" title="Contact System Workspace Support">
                 <i class="fas fa-headset"></i>
             </a>
-            <a href="dashboard.html" class="brand-text">NEXTEL <span>Connect</span></a>
+            <a href="#" class="brand-text">NEXTEL <span>Connect</span></a>
         </div>
         <div id="usernameDisplay" class="user-badge">NEXTEL USER</div>
     </div>
 </header>
 
 <main class="container mt-2">
-    <!-- Main Wallet Configuration Grid -->
-    <section class="wallet-card">
-        <div class="d-flex justify-content-between align-items-center">
-            <span class="wallet-title">Your Main Wallet</span>
-            <span class="wallet-status">Not Active</span>
-        </div>
-        <div class="wallet-balance">₦0.00</div>
 
-        <!-- Available Country Line Workspaces -->
-        <div class="lines-container">
-            <div class="lines-header">
-                <span style="font-size:0.8rem; font-weight:700; color:var(--gold);">Available Country Lines</span>
-                <span style="font-size:0.78rem; color:#4ade80; font-weight:600;">Earn ₦5,000 Per Call</span>
-            </div>
-
-            <!-- Tab Toggles for switching environments -->
-            <div class="d-flex gap-2 mb-3">
-                <button class="tab-btn active" id="btnUsa" onclick="switchLines('usa')">
-                    <i class="fas fa-globe-americas"></i> USA Lines (10)
-                </button>
-                <button class="tab-btn" id="btnBelgium" onclick="switchLines('belgium')">
-                    <i class="fas fa-globe-europe"></i> Belgium Lines (10)
-                </button>
-            </div>
-
-            <!-- Dynamic Lines Output List Layout -->
-            <div id="linesWrapper"></div>
-
-            <!-- Status action sheet footer for selected calls -->
-            <div class="call-status-bar">
-                <div style="font-size: 0.8rem; color: rgba(255,255,255,0.85); max-width: calc(100% - 50px);">
-                    <div style="font-weight: 700; color: var(--gold);" id="callStatusMessage">Select a line above to queue a connection</div>
-                    <div style="font-size: 0.72rem; color: var(--text-muted);" id="callStatusSubtext">Tap any regional channel block</div>
-                </div>
-                <button class="btn-call-trigger" id="callExecuteBtn" onclick="triggerLockedNotice()">
-                    <i class="fas fa-phone-alt"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Immediate Configuration Call to Actions Grid -->
-        <div class="action-grid">
-            <button class="btn-action btn-activate" id="activateProfileBtn">
-                <i class="fas fa-bolt"></i> Activate Account
-            </button>
-            <button class="btn-action btn-bank" onclick="triggerLockedNotice()">
-                <i class="fas fa-university"></i> Link Bank Details
-            </button>
-        </div>
-    </section>
-
-    <!-- Call Statistics Configuration Monitoring Display -->
-    <section class="status-card">
-        <h4 class="section-title">Your Call Stats</h4>
-        <div class="row align-items-center">
-            <div class="col-4 text-center">
-                <div style="width:65px; height:65px; border-radius:50%; border:5px solid rgba(255,255,255,0.05); border-top-color:var(--green-light); display:flex; align-items:center; justify-content:center; margin:0 auto;">
-                    <span style="font-size:0.85rem; font-weight:700;">0%</span>
-                </div>
-                <div style="font-size:0.68rem; color:var(--text-muted); margin-top:6px;">Total Network Load</div>
-            </div>
-            <div class="col-8">
-                <div class="stat-list-item">
-                    <span class="stat-label"><i class="fas fa-circle me-2" style="color:var(--green-light); font-size:0.6rem;"></i> Total Call Time</span>
-                    <span class="stat-value">0 min</span>
-                </div>
-                <div class="stat-list-item">
-                    <span class="stat-label"><i class="fas fa-circle me-2" style="color:#ef4444; font-size:0.6rem;"></i> Active Lines</span>
-                    <span class="stat-value">0 Lines</span>
-                </div>
-                <div class="stat-list-item">
-                    <span class="stat-label"><i class="fas fa-circle me-2" style="color:#64748b; font-size:0.6rem;"></i> Earnings Rate</span>
-                    <span class="stat-value">₦0.00/min</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Premium 3D Flippable Virtual eSIM System Section -->
+    <!-- 1. PREMIUM 3D FLIPPABLE VIRTUAL ESIM SYSTEM SECTION (First thing user sees) -->
     <section class="esim-flip-container" id="esimCardContainer">
         <div class="esim-card-inner">
             
-            <!-- FRONT SIDE: Matches layout parameters from IMG_20260701_112046_363.jpg -->
+            <!-- FRONT SIDE -->
             <div class="esim-front">
                 <div class="esim-header">
                     <div class="esim-brand"><span>N</span> NEXTEL</div>
@@ -699,11 +622,10 @@
                 </div>
             </div>
 
-            <!-- BACK SIDE: Matches asset structure from Screenshot_20260701-120257_Telegram.jpg -->
+            <!-- BACK SIDE -->
             <div class="esim-back">
                 <div class="esim-back-body">
                     <div class="qr-wrapper">
-                        <!-- Custom rendered QR layout placeholder asset -->
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=NXT-MRCY01&color=071a0f" alt="Line QR Access Code">
                     </div>
                     <div class="code-details-box">
@@ -718,8 +640,87 @@
             </div>
 
         </div>
-        <!-- Tap target toggle action trigger footer element -->
         <div class="flip-footer-trigger" onclick="flipEsimCard()">Tap to Flip Layout</div>
+    </section>
+
+    <!-- 2. ACCOUNT ACTIONS & PAYOUT (Shows immediately after the card) -->
+    <section class="wallet-card" style="margin-top: 16px;">
+        <div class="d-flex justify-content-between align-items-center">
+            <span class="wallet-title">Your Main Wallet</span>
+            <span class="wallet-status">Not Active</span>
+        </div>
+        <div class="wallet-balance">₦0.00</div>
+
+        <!-- Immediate Configuration Call to Actions Grid -->
+        <div class="action-grid" style="margin-top: 0;">
+            <button class="btn-action btn-activate" id="activateProfileBtn">
+                <i class="fas fa-bolt"></i> Activate Account
+            </button>
+            <button class="btn-action btn-bank" onclick="triggerLockedNotice()">
+                <i class="fas fa-university"></i> Link Bank Details
+            </button>
+        </div>
+    </section>
+
+    <!-- 3. CALL STATS SECTION -->
+    <section class="status-card">
+        <h4 class="section-title">Your Call Stats</h4>
+        <div class="row align-items-center">
+            <div class="col-4 text-center">
+                <div style="width:65px; height:65px; border-radius:50%; border:5px solid rgba(255,255,255,0.05); border-top-color:var(--green-light); display:flex; align-items:center; justify-content:center; margin:0 auto;">
+                    <span style="font-size:0.85rem; font-weight:700;">0%</span>
+                </div>
+                <div style="font-size:0.68rem; color:var(--text-muted); margin-top:6px;">Total Network Load</div>
+            </div>
+            <div class="col-8">
+                <div class="stat-list-item">
+                    <span class="stat-label"><i class="fas fa-circle me-2" style="color:var(--green-light); font-size:0.6rem;"></i> Total Call Time</span>
+                    <span class="stat-value">0 min</span>
+                </div>
+                <div class="stat-list-item">
+                    <span class="stat-label"><i class="fas fa-circle me-2" style="color:#ef4444; font-size:0.6rem;"></i> Active Lines</span>
+                    <span class="stat-value">0 Lines</span>
+                </div>
+                <div class="stat-list-item">
+                    <span class="stat-label"><i class="fas fa-circle me-2" style="color:#64748b; font-size:0.6rem;"></i> Earnings Rate</span>
+                    <span class="stat-value">₦0.00/min</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. AVAILABLE COUNTRY LINE WORKSPACES SECTION -->
+    <section class="status-card">
+        <div class="lines-container" style="background: transparent; border: none; padding: 0;">
+            <div class="lines-header">
+                <span style="font-size:0.8rem; font-weight:700; color:var(--gold);">Available Country Lines</span>
+                <span style="font-size:0.78rem; color:#4ade80; font-weight:600;">Earn ₦5,000 Per Call</span>
+            </div>
+
+            <!-- Tab Toggles for switching environments -->
+            <div class="d-flex gap-2 mb-3">
+                <button class="tab-btn active" id="btnUsa" onclick="switchLines('usa')">
+                    <i class="fas fa-globe-americas"></i> USA Lines (10)
+                </button>
+                <button class="tab-btn" id="btnBelgium" onclick="switchLines('belgium')">
+                    <i class="fas fa-globe-europe"></i> Belgium Lines (10)
+                </button>
+            </div>
+
+            <!-- Dynamic Lines Output List Layout -->
+            <div id="linesWrapper"></div>
+
+            <!-- Status action sheet footer for selected calls -->
+            <div class="call-status-bar">
+                <div style="font-size: 0.8rem; color: rgba(255,255,255,0.85); max-width: calc(100% - 50px);">
+                    <div style="font-weight: 700; color: var(--gold);" id="callStatusMessage">Select a line above to queue a connection</div>
+                    <div style="font-size: 0.72rem; color: var(--text-muted);" id="callStatusSubtext">Tap any regional channel block</div>
+                </div>
+                <button class="btn-call-trigger" id="callExecuteBtn" onclick="triggerLockedNotice()">
+                    <i class="fas fa-phone-alt"></i>
+                </button>
+            </div>
+        </div>
     </section>
 
     <!-- Plan Matrix Settings Area -->
@@ -797,7 +798,6 @@
             localUserData = JSON.parse(rawData);
             if (localUserData.username) {
                 document.getElementById("usernameDisplay").textContent = localUserData.username;
-                // Generate a custom clean text code based on current user session layout info
                 document.getElementById("referralCodeText").textContent = `NXT-${localUserData.username.toUpperCase()}01`;
             }
             if (localUserData.planName) {
@@ -811,7 +811,7 @@
 
     // Toggle showing/masking the virtual line phone number
     function toggleNumberMask(event) {
-        event.stopPropagation(); // Avoid triggering accidental card flip
+        event.stopPropagation();
         const display = document.getElementById("maskedLineNumber");
         const icon = document.getElementById("maskToggleIcon");
         const text = document.getElementById("maskToggleText");
@@ -836,7 +836,7 @@
 
     // Copy backend verification text code function workflow
     function copyReferralCode(event) {
-        event.stopPropagation(); // Stop card from flipping when clicking copy button
+        event.stopPropagation();
         const targetText = document.getElementById("referralCodeText").textContent;
         
         navigator.clipboard.writeText(targetText).then(() => {
@@ -912,6 +912,5 @@
     function triggerLockedNotice() { document.getElementById("activateProfileBtn").click(); }
     switchLines('usa');
 </script>
-
 </body>
 </html>
