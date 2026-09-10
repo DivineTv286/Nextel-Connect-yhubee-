@@ -11,34 +11,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous">
+    <!-- SweetAlert2 for the custom account activation notification -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <style>
         :root {
-            --bg-color: #f7f5f0;
-            --card-bg: #ffffff;
-            --text-main: #111827;
-            --text-muted: #6b7280;
-            --green: #1a7a4a;
-            --green-light: #22c55e;
-            --dark-green: #071a0f;
-            --gold: #C9A84C;
+            --dark:        #071a0f;
+            --dark-card:   #0b2516;
+            --green:       #1a7a4a;
+            --green-light: #25a060;
+            --gold:        #C9A84C;
+            --gold-light:  #D4A843;
+            --text-muted:  rgba(255, 255, 255, 0.6);
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            background-color: var(--dark);
+            color: #fff;
             min-height: 100vh;
-            padding-bottom: 90px;
+            padding-bottom: 60px;
         }
 
         /* Header Navigation */
         .dashboard-header {
-            background-color: rgba(247, 245, 240, 0.9);
+            background-color: rgba(7, 26, 15, 0.9);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px 0;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -49,299 +49,519 @@
             font-weight: 800;
             letter-spacing: 0.5px;
             text-decoration: none;
-            color: var(--text-main);
+            color: #fff;
         }
         .brand-text span { color: var(--green-light); }
 
+        /* Animated Support Link replacing the old bars icon */
         .support-link {
             color: var(--green-light);
             font-size: 1.35rem;
             text-decoration: none;
             display: inline-block;
+            transition: color 0.3s;
             animation: pulseSupport 2s infinite ease-in-out;
         }
+        .support-link:hover {
+            color: var(--gold);
+        }
+
         @keyframes pulseSupport {
             0% { transform: scale(1); opacity: 0.9; }
             50% { transform: scale(1.12); opacity: 1; filter: drop-shadow(0 0 8px var(--green-light)); }
             100% { transform: scale(1); opacity: 0.9; }
         }
 
-        /* Notice Banner */
-        .notice-banner {
-            background: var(--card-bg);
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            border-radius: 20px;
-            padding: 16px;
-            margin-top: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-        }
-        .notice-badge {
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-            font-size: 0.72rem;
+        .user-badge {
+            background-color: rgba(201, 168, 76, 0.12);
+            border: 1px solid rgba(201, 168, 76, 0.25);
+            color: var(--gold);
             font-weight: 700;
-            padding: 4px 10px;
+            font-size: 0.85rem;
+            padding: 6px 14px;
             border-radius: 20px;
             text-transform: uppercase;
-        }
-        .timer-box {
-            background: var(--dark-green);
-            color: #fff;
-            font-family: monospace;
-            font-size: 0.85rem;
-            font-weight: 700;
-            padding: 6px 12px;
-            border-radius: 8px;
+            letter-spacing: 0.5px;
         }
 
-        /* Wallet Section */
+        /* Section Cards */
         .wallet-card {
-            margin-top: 16px;
+            background: linear-gradient(145deg, #0a2215, #06170e);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 24px;
+            margin-top: 20px;
         }
+
         .wallet-title {
-            font-size: 0.88rem;
+            font-size: 0.78rem;
             font-weight: 600;
             color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .wallet-balance-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 8px 0 16px 0;
+
+        .wallet-status {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #f59e0b;
+            text-transform: uppercase;
         }
+        .wallet-status::before {
+            content: "• ";
+            font-size: 1.2rem;
+            vertical-align: middle;
+        }
+
         .wallet-balance {
             font-size: 2.2rem;
             font-weight: 800;
-            letter-spacing: -0.5px;
+            margin: 12px 0 20px 0;
+            font-family: sans-serif;
         }
 
-        /* Action Grid Buttons */
+        /* Line Workspaces */
+        .lines-container {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 16px;
+        }
+
+        .lines-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 8px 14px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+        .tab-btn i { margin-right: 6px; }
+        .tab-btn.active {
+            background: rgba(26, 122, 74, 0.15);
+            border-color: var(--green-light);
+            color: #fff;
+        }
+
+        .line-row {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .line-row:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .line-row.selected-line {
+            background: rgba(26, 122, 74, 0.12);
+            border-color: rgba(37, 160, 96, 0.4);
+        }
+        .line-row:last-child { margin-bottom: 0; }
+
+        .line-number {
+            font-size: 0.92rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .line-payout {
+            background: rgba(37, 160, 96, 0.15);
+            color: #4ade80;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        /* Call Status Bar Element */
+        .call-status-bar {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px dashed rgba(37, 160, 96, 0.3);
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-call-trigger {
+            background: #22c55e;
+            color: #04120a;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+        .btn-call-trigger:active { transform: scale(0.9); }
+
+        /* Actions Bar */
         .action-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .btn-action {
+            padding: 12px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+        .btn-action:active { transform: scale(0.98); }
+
+        .btn-activate {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: #04120a;
+        }
+        .btn-bank {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        /* Standard Stats & Plan Cards */
+        .status-card {
+            background: var(--dark-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 18px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .section-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .stat-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+            margin-bottom: 8px;
+        }
+        .stat-label { color: var(--text-muted); }
+        .stat-value { font-weight: 600; }
+
+        /* --- 3D Flippable Virtual eSIM Card System --- */
+        .esim-flip-container {
+            perspective: 1000px;
+            margin-top: 16px;
+        }
+
+        .esim-card-inner {
+            width: 100%;
+            height: 210px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .esim-flip-container.flipped .esim-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .esim-front, .esim-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0; left: 0;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Front Side Styling */
+        .esim-front {
+            background: linear-gradient(135deg, #0b2f19, #05180d);
+        }
+
+        .esim-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .esim-brand {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #fff;
+        }
+        .esim-brand span {
+            font-size: 0.8rem;
+            vertical-align: middle;
+            margin-right: 4px;
+            display: inline-block;
+            border: 1.5px solid #fff;
+            border-radius: 50%;
+            width: 18px; height: 18px;
+            text-align: center;
+            line-height: 15px;
+        }
+
+        .esim-badge {
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 6px;
+            padding: 2px 10px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #c4f1a9;
+        }
+
+        .esim-chip {
+            width: 32px; height: 24px;
+            border: 1.5px solid #4ade80;
+            border-radius: 6px;
+            margin: 10px 0;
+            position: relative;
+        }
+        .esim-chip::after {
+            content: '';
+            position: absolute;
+            top: 4px; left: 8px; width: 12px; height: 14px;
+            border: 1px solid #4ade80; border-radius: 2px;
+        }
+
+        .esim-interactive-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .esim-toggle-btn {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .esim-data-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 10px;
-            margin-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 12px;
         }
-        .action-item {
-            background: transparent;
-            border: none;
+
+        .esim-label {
+            font-size: 0.62rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .esim-value {
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+        .esim-value.gold { color: #a3e635; }
+        .esim-value.success { color: #4ade80; }
+
+        /* Back Side Styling */
+        .esim-back {
+            background: linear-gradient(135deg, #051c0f, #020d07);
+            transform: rotateY(180deg);
+        }
+
+        .esim-back-body {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            height: 100%;
+        }
+
+        .qr-wrapper {
+            background: #fff;
+            padding: 6px;
+            border-radius: 12px;
+            width: 95px; height: 95px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .qr-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .code-details-box {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
+            gap: 4px;
         }
-        .action-icon-wrap {
-            width: 52px;
-            height: 52px;
-            background: var(--card-bg);
-            border: 1px solid rgba(0,0,0,0.08);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+
+        .back-brand {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .scan-msg {
+            font-size: 0.72rem;
+            color: #4ade80;
+            margin-bottom: 2px;
+        }
+
+        .nxt-code-text {
             font-size: 1.1rem;
-            color: var(--text-main);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-            transition: all 0.2s;
-        }
-        .action-item:hover .action-icon-wrap {
-            border-color: var(--green-light);
-            color: var(--green-light);
-        }
-        .action-label {
-            font-size: 0.72rem;
-            font-weight: 600;
-            color: var(--text-main);
-            text-align: center;
-            line-height: 1.2;
-        }
-
-        /* Section Titles */
-        .section-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin: 24px 0 12px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .section-title span.sub {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        /* Quick Tasks Rows */
-        .task-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-        }
-        .task-title {
-            font-size: 0.88rem;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-        .task-payout {
-            font-size: 0.92rem;
             font-weight: 800;
-            color: var(--green-light);
-            margin-top: 2px;
-        }
-        .btn-task {
-            background: var(--dark-green);
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-size: 0.78rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        .btn-task:active { opacity: 0.8; }
-
-        /* Save Sponsors Widget */
-        .save-sponsor-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-        }
-        .save-add-circle {
-            width: 50px;
-            height: 50px;
-            background: rgba(0,0,0,0.03);
-            border: 1px dashed rgba(0,0,0,0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .save-add-circle:hover {
-            border-color: var(--green-light);
-            color: var(--green-light);
-            background: rgba(34, 197, 94, 0.05);
+            color: #a3e635;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
         }
 
-        /* Sponsored Calls List */
-        .sponsor-call-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-        }
-        .sponsor-avatar {
-            width: 44px;
-            height: 44px;
-            background: rgba(0,0,0,0.05);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1rem;
-            color: var(--text-main);
-            margin-right: 12px;
-        }
-        .sponsor-name {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-        .sponsor-meta {
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            margin-top: 1px;
-        }
-        .sponsor-calls-count {
-            font-size: 0.72rem;
-            color: var(--green-light);
-            font-weight: 600;
-            margin-top: 2px;
-        }
-        .btn-sponsor-call {
-            background: var(--dark-green);
-            color: #fff;
+        .btn-copy-code {
+            background: #a3e635;
+            color: #04120a;
             border: none;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.72rem;
             font-weight: 700;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 6px;
-            cursor: pointer;
+            width: fit-content;
         }
 
-        /* Bottom Navigation Bar */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: var(--card-bg);
-            border-top: 1px solid rgba(0,0,0,0.06);
-            padding: 10px 0;
-            display: flex;
-            justify-content: space-around;
-            z-index: 100;
-        }
-        .nav-item {
+        .flip-footer-trigger {
             text-align: center;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.7rem;
-            font-weight: 600;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.25);
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 4px;
+            transition: color 0.2s;
         }
-        .nav-item i {
-            display: block;
-            font-size: 1.1rem;
-            margin-bottom: 3px;
-        }
-        .nav-item.active {
-            color: var(--text-main);
+        .flip-footer-trigger:hover {
+            color: var(--green-light);
         }
 
-        /* Custom SweetAlert Integration for Nextel Dark Aesthetic */
+        /* Tasks Layout Changes */
+        .task-row {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .task-row:last-child { margin-bottom: 0; }
+        
+        .task-icon-container {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            margin-right: 12px;
+        }
+
+        .btn-task-reward {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #4ade80;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 8px;
+            white-space: nowrap;
+        }
+
+        /* Premium Dark SweetAlert Customizations */
         .swal2-popup.nextel-alert-theme {
-            background: #071a0f !important;
+            background: #091f13 !important;
             border: 1px solid rgba(201, 168, 76, 0.3) !important;
             border-radius: 24px !important;
             color: #fff !important;
             font-family: 'Poppins', sans-serif !important;
         }
-        .swal2-title { color: #fff !important; font-size: 1.3rem !important; font-weight: 800 !important; }
-        .swal2-html-container { color: rgba(255,255,255,0.75) !important; font-size: 0.88rem !important; }
-        .swal-btn-action {
-            background: linear-gradient(135deg, var(--gold), #D4A843) !important;
+        .swal2-title.nextel-alert-title {
+            color: #fff !important;
+            font-weight: 800 !important;
+            font-size: 1.4rem !important;
+        }
+        .swal2-html-container.nextel-alert-body {
+            color: rgba(255,255,255,0.75) !important;
+            font-size: 0.9rem !important;
+            line-height: 1.6 !important;
+        }
+        .nextel-pricing-box {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 15px;
+        }
+        .nextel-pricing-box strong {
+            color: var(--gold);
+        }
+        .swal2-actions { margin-top: 20px !important; }
+        .swal-btn-activate {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light)) !important;
             color: #071a0f !important;
             font-weight: 700 !important;
             border-radius: 10px !important;
             padding: 10px 24px !important;
+            box-shadow: 0 4px 15px rgba(201,168,76,0.2) !important;
         }
         .swal-btn-cancel {
             background: rgba(255,255,255,0.08) !important;
             color: #fff !important;
             font-weight: 600 !important;
             border-radius: 10px !important;
+            padding: 10px 20px !important;
         }
     </style>
 </head>
@@ -351,305 +571,326 @@
 <header class="dashboard-header">
     <div class="container d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center gap-3">
-            <a href="http://t.me/Trustedwakiee" target="_blank" class="support-link" title="Support">
+            <a href="http://t.me/Trustedwakiee" target="_blank" class="support-link" title="Contact System Workspace Support">
                 <i class="fas fa-headset"></i>
             </a>
             <a href="#" class="brand-text">NEXTEL <span>Connect</span></a>
         </div>
-        <div class="d-flex align-items-center gap-2">
-            <button class="btn btn-sm btn-dark" style="font-size:0.75rem; border-radius:20px; padding:4px 12px;" onclick="window.location.href='payment.html'">
-                <i class="fas fa-bolt text-warning me-1"></i> Upgrade
-            </button>
-        </div>
+        <div id="usernameDisplay" class="user-badge">NEXTEL USER</div>
     </div>
 </header>
 
-<main class="container">
+<main class="container mt-2">
 
-    <!-- Greeting & Account Inactive Notice Banner -->
-    <div class="notice-banner">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-            <h4 id="userGreeting" style="font-size: 1.15rem; font-weight: 800; margin:0;">Hi, User</h4>
-            <span class="notice-badge"><i class="fas fa-circle me-1" style="font-size:0.5rem;"></i> Account Inactive</span>
-        </div>
-        <div class="d-flex justify-content-between align-items-center bg-light p-2 rounded-3 mt-2" style="background: rgba(0,0,0,0.02) !important; border: 1px solid rgba(0,0,0,0.04);">
-            <div class="d-flex align-items-center gap-2">
-                <i class="fas fa-hourglass-half text-warning"></i>
-                <div style="font-size: 0.75rem; font-weight: 600;">Activation Time Remaining</div>
+    <!-- 1. PREMIUM 3D FLIPPABLE VIRTUAL ESIM SYSTEM SECTION (First thing user sees) -->
+    <section class="esim-flip-container" id="esimCardContainer">
+        <div class="esim-card-inner">
+            
+            <!-- FRONT SIDE -->
+            <div class="esim-front">
+                <div class="esim-header">
+                    <div class="esim-brand"><span>N</span> NEXTEL</div>
+                    <div class="esim-badge">ESIM</div>
+                </div>
+                <div class="esim-chip"></div>
+                <div class="esim-interactive-line">
+                    <div>
+                        <div class="esim-label">Virtual line</div>
+                        <div class="esim-value" id="maskedLineNumber" style="font-size:1.15rem; letter-spacing:0.5px;">+1 (•••) ••-•••</div>
+                    </div>
+                    <button class="esim-toggle-btn" onclick="toggleNumberMask(event)">
+                        <i class="fas fa-eye" id="maskToggleIcon"></i> <span id="maskToggleText">Show</span>
+                    </button>
+                </div>
+                <div class="esim-data-grid">
+                    <div>
+                        <div class="esim-label">Plan</div>
+                        <div class="esim-value gold" id="cardPlanLabel">Starter</div>
+                    </div>
+                    <div>
+                        <div class="esim-label">Lines</div>
+                        <div class="esim-value">13/50</div>
+                    </div>
+                    <div>
+                        <div class="esim-label">Valid</div>
+                        <div class="esim-value">12/26</div>
+                    </div>
+                    <div>
+                        <div class="esim-label">Status</div>
+                        <div class="esim-value success">Active</div>
+                    </div>
+                </div>
             </div>
-            <div class="timer-box" id="countdownTimer">4d 19:12:53</div>
-        </div>
-        <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 8px;">
-            Your Account Will Be Deleted after 5 Days if you did not Activate.
-        </div>
-    </div>
 
-    <!-- Total Balance Card -->
-    <section class="wallet-card">
-        <div class="wallet-title">Total Balance</div>
-        <div class="wallet-balance-row">
-            <div class="wallet-balance" id="displayBalance">₦10,000</div>
-            <button class="btn btn-sm p-0 border-0 text-muted" onclick="toggleBalanceVisibility()" style="font-size: 1.1rem;">
-                <i class="fas fa-eye" id="eyeToggleIcon"></i>
-            </button>
-        </div>
+            <!-- BACK SIDE -->
+            <div class="esim-back">
+                <div class="esim-back-body">
+                    <div class="qr-wrapper">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=NXT-MRCY01&color=071a0f" alt="Line QR Access Code">
+                    </div>
+                    <div class="code-details-box">
+                        <div class="back-brand"><span>N</span> NEXTEL</div>
+                        <div class="scan-msg">Scan to join my line</div>
+                        <div class="nxt-code-text" id="referralCodeText">NXT-MRCY01</div>
+                        <button class="btn-copy-code" onclick="copyReferralCode(event)">
+                            <i class="fas fa-copy"></i> Copy code
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-        <!-- Action Grid Menu Circles -->
-        <div class="action-grid">
-            <button class="action-item" onclick="triggerLockedNotice()">
-                <div class="action-icon-wrap"><i class="fas fa-sim-card"></i></div>
-                <span class="action-label">Activate eSIM</span>
+        </div>
+        <div class="flip-footer-trigger" onclick="flipEsimCard()">Tap to Flip Layout</div>
+    </section>
+
+    <!-- 2. ACCOUNT ACTIONS & PAYOUT (Shows immediately after the card) -->
+    <section class="wallet-card" style="margin-top: 16px;">
+        <div class="d-flex justify-content-between align-items-center">
+            <span class="wallet-title">Your Main Wallet</span>
+            <span class="wallet-status">Not Active</span>
+        </div>
+        <div class="wallet-balance">₦0.00</div>
+
+        <!-- Immediate Configuration Call to Actions Grid -->
+        <div class="action-grid" style="margin-top: 0;">
+            <button class="btn-action btn-activate" id="activateProfileBtn">
+                <i class="fas fa-bolt"></i> Activate Account
             </button>
-            <button class="action-item" onclick="triggerLockedNotice()">
-                <div class="action-icon-wrap"><i class="fas fa-mobile-alt"></i></div>
-                <span class="action-label">Buy Airtime</span>
-            </button>
-            <button class="action-item" onclick="triggerLockedNotice()">
-                <div class="action-icon-wrap"><i class="fas fa-wallet"></i></div>
-                <span class="action-label">Withdraw</span>
-            </button>
-            <button class="action-item" onclick="scrollToSection('savedSponsorsSection')">
-                <div class="action-icon-wrap"><i class="fas fa-address-book"></i></div>
-                <span class="action-label">Contacts</span>
+            <button class="btn-action btn-bank" onclick="triggerLockedNotice()">
+                <i class="fas fa-university"></i> Link Bank Details
             </button>
         </div>
     </section>
 
-    <!-- Quick Tasks Section -->
-    <div class="section-title">
-        Quick Tasks <span class="sub">Earn daily</span>
-    </div>
-
-    <div class="task-card">
-        <div>
-            <div class="task-title">AI Call (10 People At Once)</div>
-            <div class="task-payout">+₦50,000.00</div>
-        </div>
-        <button class="btn-task" onclick="triggerLockedNotice()">Start Task</button>
-    </div>
-
-    <div class="task-card">
-        <div>
-            <div class="task-title">Nextel Line Call</div>
-            <div class="task-payout">+₦5,000.00</div>
-        </div>
-        <button class="btn-task" onclick="triggerLockedNotice()">Start Task</button>
-    </div>
-
-    <!-- Save Sponsors Section -->
-    <div class="section-title" id="savedSponsorsSection">
-        Save Sponsors <span class="sub" style="color:var(--green-light); font-weight:700;">+₦1,028.00 / save</span>
-    </div>
-
-    <div class="save-sponsor-card">
-        <div class="d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-3">
-                <div class="save-add-circle" onclick="openSaveSponsorModal()">
-                    <i class="fas fa-plus"></i>
+    <!-- 3. CALL STATS SECTION -->
+    <section class="status-card">
+        <h4 class="section-title">Your Call Stats</h4>
+        <div class="row align-items-center">
+            <div class="col-4 text-center">
+                <div style="width:65px; height:65px; border-radius:50%; border:5px solid rgba(255,255,255,0.05); border-top-color:var(--green-light); display:flex; align-items:center; justify-content:center; margin:0 auto;">
+                    <span style="font-size:0.85rem; font-weight:700;">0%</span>
                 </div>
-                <div>
-                    <div style="font-size: 0.85rem; font-weight: 700;">Add Sponsor Contact</div>
-                    <div style="font-size: 0.72rem; color: var(--text-muted);" id="saveLimitTracker">0/4 saves today · resets in 24h</div>
+                <div style="font-size:0.68rem; color:var(--text-muted); margin-top:6px;">Total Network Load</div>
+            </div>
+            <div class="col-8">
+                <div class="stat-list-item">
+                    <span class="stat-label"><i class="fas fa-circle me-2" style="color:var(--green-light); font-size:0.6rem;"></i> Total Call Time</span>
+                    <span class="stat-value">0 min</span>
+                </div>
+                <div class="stat-list-item">
+                    <span class="stat-label"><i class="fas fa-circle me-2" style="color:#ef4444; font-size:0.6rem;"></i> Active Lines</span>
+                    <span class="stat-value">0 Lines</span>
+                </div>
+                <div class="stat-list-item">
+                    <span class="stat-label"><i class="fas fa-circle me-2" style="color:#64748b; font-size:0.6rem;"></i> Earnings Rate</span>
+                    <span class="stat-value">₦0.00/min</span>
                 </div>
             </div>
-            <button class="btn btn-sm btn-outline-success" style="font-size:0.75rem; border-radius:10px; font-weight:600;" onclick="openSaveSponsorModal()">Add</button>
         </div>
-    </div>
+    </section>
 
-    <!-- Sponsored Calls Section -->
-    <div class="section-title">
-        Sponsored Calls <span class="sub">Active slots</span>
-    </div>
+    <!-- 4. AVAILABLE COUNTRY LINE WORKSPACES SECTION -->
+    <section class="status-card">
+        <div class="lines-container" style="background: transparent; border: none; padding: 0;">
+            <div class="lines-header">
+                <span style="font-size:0.8rem; font-weight:700; color:var(--gold);">Available Country Lines</span>
+                <span style="font-size:0.78rem; color:#4ade80; font-weight:600;">Earn ₦5,000 Per Call</span>
+            </div>
 
-    <div id="sponsoredCallsContainer">
-        <!-- Injected via JavaScript below matching exact visual layout -->
-    </div>
+            <!-- Tab Toggles for switching environments -->
+            <div class="d-flex gap-2 mb-3">
+                <button class="tab-btn active" id="btnUsa" onclick="switchLines('usa')">
+                    <i class="fas fa-globe-americas"></i> USA Lines (10)
+                </button>
+                <button class="tab-btn" id="btnBelgium" onclick="switchLines('belgium')">
+                    <i class="fas fa-globe-europe"></i> Belgium Lines (10)
+                </button>
+            </div>
 
+            <!-- Dynamic Lines Output List Layout -->
+            <div id="linesWrapper"></div>
+
+            <!-- Status action sheet footer for selected calls -->
+            <div class="call-status-bar">
+                <div style="font-size: 0.8rem; color: rgba(255,255,255,0.85); max-width: calc(100% - 50px);">
+                    <div style="font-weight: 700; color: var(--gold);" id="callStatusMessage">Select a line above to queue a connection</div>
+                    <div style="font-size: 0.72rem; color: var(--text-muted);" id="callStatusSubtext">Tap any regional channel block</div>
+                </div>
+                <button class="btn-call-trigger" id="callExecuteBtn" onclick="triggerLockedNotice()">
+                    <i class="fas fa-phone-alt"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plan Matrix Settings Area -->
+    <section class="status-card">
+        <h4 class="section-title">Your Current Plan</h4>
+        <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+                <div style="font-size:0.88rem; color:var(--text-muted);">Your Plan</div>
+                <div style="font-size:0.75rem; color:rgba(255,255,255,0.4); line-height:1.4;" class="mt-1">This plan allows you to manage up to 12 lines on your phone layout network setup.</div>
+            </div>
+            <div style="color:#4ade80; font-weight:800; font-size:1.05rem; white-space:nowrap;" id="planNameDisplay">Starter Account</div>
+        </div>
+        <hr style="border-top:1px solid rgba(255,255,255,0.08); margin:15px 0;">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <div style="font-size:0.88rem; color:var(--text-muted);">Account Status</div>
+                <div style="font-size:0.72rem; color:rgba(255,255,255,0.4);" class="mt-1">You need to pay the quick account upgrade fee to start earning and make phone withdrawals.</div>
+            </div>
+            <span style="color:#f87171; font-weight:700; font-size:0.95rem; white-space:nowrap;">Not Active</span>
+        </div>
+    </section>
+
+    <!-- Tasks and Network Bonuses Module Panel -->
+    <section class="mt-4">
+        <h4 class="section-title">Quick Tasks & AI Bonuses</h4>
+        <div class="task-row">
+            <div class="d-flex align-items-center">
+                <div class="task-icon-container" style="background:rgba(147, 51, 234, 0.15); color:#a855f7;">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div>
+                    <div style="font-size:0.88rem; font-weight:700;">AI Call (10 People At Once)</div>
+                    <div style="font-size:0.74rem; color:var(--text-muted);">Let AI make 10 automatic calls together instantly</div>
+                </div>
+            </div>
+            <button class="btn-task-reward" onclick="triggerLockedNotice()">₦50,000.00</button>
+        </div>
+        <div class="task-row">
+            <div class="d-flex align-items-center">
+                <div class="task-icon-container" style="background:rgba(37, 160, 96, 0.15); color:var(--green-light);">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <div>
+                    <div style="font-size:0.88rem; font-weight:700;">Nextel Line Call</div>
+                    <div style="font-size:0.74rem; color:var(--text-muted);">Start a regular premium network earning line</div>
+                </div>
+            </div>
+            <button class="btn-task-reward" onclick="triggerLockedNotice()">+ ₦5,000</button>
+        </div>
+    </section>
 </main>
-
-<!-- Fixed Bottom Navigation Bar matching screenshot -->
-<nav class="bottom-nav">
-    <a href="#" class="nav-item active">
-        <i class="fas fa-home"></i> Home
-    </a>
-    <a href="#" class="nav-item" onclick="triggerLockedNotice(); return false;">
-        <i class="fas fa-arrow-trend-down"></i> Withdraw
-    </a>
-    <a href="#" class="nav-item" onclick="triggerLockedNotice(); return false;">
-        <i class="fas fa-user"></i> Profile
-    </a>
-</nav>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    // Data structures for dynamic rendering using user's explicit logic (max 1 save allowed, strict rule enforcement)
-    const sponsoredList = [
-        { name: "Linda (NaijaCard)", sponsor: "from NaijaCard · 0700-NCARD-01", initial: "L" },
-        { name: "James (Ajo)", sponsor: "from Ajo · 0700-AJO-02", initial: "J" },
-        { name: "Sarah (Prospa)", sponsor: "from Prospa · 0700-PRSP-03", initial: "S" },
-        { name: "David (Pay4Me)", sponsor: "from Pay4Me · 0700-P4ME-04", initial: "D" },
-        { name: "Amanda (MAX)", sponsor: "from MAX · 0700-MAX-05", initial: "A" }
-    ];
+    const countryLines = {
+        usa: [
+            "+1 (323) 801-6643", "+1 (404) 919-5520", "+1 (702) 664-1189",
+            "+1 (213) 457-8811", "+1 (646) 389-9942", "+1 (312) 508-3376"
+        ],
+        belgium: [
+            "+32 (2) 504-0111", "+32 (3) 218-1212", "+32 (9) 242-4211",
+            "+32 (4) 349-8022", "+32 (2) 715-3000", "+32 (15) 442-111"
+        ]
+    };
 
-    let savedSponsorsCount = 0; // State keeping track of saved contacts
+    let isMasked = true;
+    const standardRealNumber = "+1 (323) 801-6643";
 
-    // Load user personalization data if available from sessionStorage
+    let localUserData = null;
     try {
         const rawData = sessionStorage.getItem("nxt_user");
         if (rawData) {
-            const user = JSON.parse(rawData);
-            if (user.username) {
-                document.getElementById("userGreeting").textContent = `Hi, ${user.username}`;
+            localUserData = JSON.parse(rawData);
+            if (localUserData.username) {
+                document.getElementById("usernameDisplay").textContent = localUserData.username;
+                document.getElementById("referralCodeText").textContent = `NXT-${localUserData.username.toUpperCase()}01`;
+            }
+            if (localUserData.planName) {
+                document.getElementById("planNameDisplay").textContent = localUserData.planName + " Account";
+                document.getElementById("cardPlanLabel").textContent = localUserData.planName;
             }
         }
-    } catch(e) {}
-
-    // Render Sponsored Calls List
-    function renderSponsoredCalls() {
-        const container = document.getElementById("sponsoredCallsContainer");
-        container.innerHTML = "";
-        sponsoredList.forEach((item, index) => {
-            const card = document.createElement("div");
-            card.className = "sponsor-call-card";
-            card.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <div class="sponsor-avatar">${item.initial}</div>
-                    <div>
-                        <div class="sponsor-name">${item.name}</div>
-                        <div class="sponsor-meta">${item.sponsor}</div>
-                        <div class="sponsor-calls-count">0/2 calls today</div>
-                    </div>
-                </div>
-                <button class="btn-sponsor-call" onclick="handleCallClick('${item.name}', '${item.sponsor}')">
-                    <i class="fas fa-phone-alt"></i> Call
-                </button>
-            `;
-            container.appendChild(card);
-        });
+    } catch(e) {
+        console.error("Session reading failure token keys", e);
     }
 
-    // Modal popup when clicking Call on any sponsored item
-    function handleCallClick(name, sponsorInfo) {
-        Swal.fire({
-            title: `Incoming Partner Call`,
-            html: `
-                <div style="text-align: left; background: rgba(255,255,255,0.03); padding: 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.08);">
-                    <div style="font-weight: 700; font-size: 1rem; color: #fff;">${name}</div>
-                    <div style="font-size: 0.78rem; color: rgba(255,255,255,0.6); margin-top: 2px;">${sponsorInfo}</div>
-                    <div style="margin-top: 10px; font-size: 0.82rem; color: #4ade80; font-weight: 700;">Session Reward: ₦2,150.00</div>
-                </div>
-                <div style="font-size: 0.82rem; color: rgba(255,255,255,0.7); margin-top: 15px;">
-                    Enable call notifications to instantly receive high-paying sponsor calls and unlock automatic cash rewards.
-                </div>
-            `,
-            showCancelButton: true,
-            confirmButtonText: '<i class="fas fa-phone-alt me-1"></i> Answer',
-            cancelButtonText: 'Decline',
-            customClass: {
-                popup: 'nextel-alert-theme',
-                confirmButton: 'swal-btn-action',
-                cancelButton: 'swal-btn-cancel'
-            },
-            buttonsStyling: false
-        }).then((result) => {
-            if (result.isConfirmed) {
-                triggerLockedNotice();
-            }
-        });
-    }
+    // Toggle showing/masking the virtual line phone number
+    function toggleNumberMask(event) {
+        event.stopPropagation();
+        const display = document.getElementById("maskedLineNumber");
+        const icon = document.getElementById("maskToggleIcon");
+        const text = document.getElementById("maskToggleText");
 
-    // Save Sponsor logic enforcing maximum limit of 1 contact
-    function openSaveSponsorModal() {
-        if (savedSponsorsCount >= 1) {
-            Swal.fire({
-                title: 'Upgrade Required',
-                html: 'You can only save <strong>1 contact</strong> on the free tier plan. Please upgrade your account to save more contacts and unlock unlimited daily payouts.',
-                icon: 'warning',
-                confirmButtonText: 'Upgrade Now',
-                showCancelButton: true,
-                cancelButtonText: 'Close',
-                customClass: {
-                    popup: 'nextel-alert-theme',
-                    confirmButton: 'swal-btn-action',
-                    cancelButton: 'swal-btn-cancel'
-                },
-                buttonsStyling: false
-            }).then((res) => {
-                if (res.isConfirmed) {
-                    window.location.href = "payment.html";
-                }
-            });
-            return;
-        }
-
-        Swal.fire({
-            title: 'Save Sponsor Contact',
-            html: `
-                <div style="text-align: left;">
-                    <label style="font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-bottom: 4px; display: block;">Sponsor Name / ID</label>
-                    <input type="text" id="sponsorInputName" class="swal2-input" placeholder="e.g. David (Pay4Me)" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; border-radius: 10px; width: 100%; margin: 0 0 12px 0; font-size: 0.9rem;">
-                    <div style="font-size: 0.72rem; color: #4ade80;">Earn ₦1,028.00 per save. Limit: 1 for current tier.</div>
-                </div>
-            `,
-            confirmButtonText: 'Save Contact',
-            showCancelButton: true,
-            cancelButtonText: 'Cancel',
-            customClass: {
-                popup: 'nextel-alert-theme',
-                confirmButton: 'swal-btn-action',
-                cancelButton: 'swal-btn-cancel'
-            },
-            buttonsStyling: false,
-            preConfirm: () => {
-                const val = document.getElementById('sponsorInputName').value;
-                if (!val) {
-                    Swal.showValidationMessage('Please enter a valid sponsor name');
-                }
-                return val;
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                savedSponsorsCount++;
-                document.getElementById("saveLimitTracker").textContent = `${savedSponsorsCount}/4 saves today · limit reached`;
-                Swal.fire({
-                    title: 'Contact Saved!',
-                    text: 'Your sponsor contact has been successfully added to your task queue.',
-                    icon: 'success',
-                    timer: 2000,
-                    showConfirmButton: false,
-                    customClass: { popup: 'nextel-alert-theme' }
-                });
-            }
-        });
-    }
-
-    // Toggle Balance visibility
-    let balanceVisible = true;
-    function toggleBalanceVisibility() {
-        const balanceEl = document.getElementById("displayBalance");
-        const iconEl = document.getElementById("eyeToggleIcon");
-        if (balanceVisible) {
-            balanceEl.textContent = "₦••••••";
-            iconEl.className = "fas fa-eye-slash";
-            balanceVisible = false;
+        if (isMasked) {
+            display.textContent = standardRealNumber;
+            icon.className = "fas fa-eye-slash";
+            text.textContent = "Hide";
+            isMasked = false;
         } else {
-            balanceEl.textContent = "₦10,000";
-            iconEl.className = "fas fa-eye";
-            balanceVisible = true;
+            display.textContent = "+1 (•••) ••-•••";
+            icon.className = "fas fa-eye";
+            text.textContent = "Show";
+            isMasked = true;
         }
     }
 
-    // Trigger Account Activation notice for locked actions
-    function triggerLockedNotice() {
+    // Triggers 3D flipping action layout routine
+    function flipEsimCard() {
+        document.getElementById("esimCardContainer").classList.toggle("flipped");
+    }
+
+    // Copy backend verification text code function workflow
+    function copyReferralCode(event) {
+        event.stopPropagation();
+        const targetText = document.getElementById("referralCodeText").textContent;
+        
+        navigator.clipboard.writeText(targetText).then(() => {
+            const copyBtn = event.currentTarget;
+            const originalHTML = copyBtn.innerHTML;
+            copyBtn.innerHTML = `<i class="fas fa-check"></i> Copied!`;
+            setTimeout(() => { copyBtn.innerHTML = originalHTML; }, 2000);
+        });
+    }
+
+    function selectLine(element, number) {
+        document.querySelectorAll('.line-row').forEach(row => row.classList.remove('selected-line'));
+        element.classList.add('selected-line');
+        document.getElementById("callStatusMessage").textContent = `Ready to call: ${number}`;
+        document.getElementById("callStatusSubtext").textContent = "You will earn ₦5,000 • Tap green phone button to launch";
+    }
+
+    function switchLines(country) {
+        const wrapper = document.getElementById("linesWrapper");
+        const btnUsa = document.getElementById("btnUsa");
+        const btnBelgium = document.getElementById("btnBelgium");
+
+        btnUsa.classList.remove("active");
+        btnBelgium.classList.remove("active");
+
+        if (country === 'usa') { btnUsa.classList.add("active"); } 
+        else { btnBelgium.classList.add("active"); }
+
+        wrapper.innerHTML = "";
+        countryLines[country].forEach(num => {
+            const div = document.createElement("div");
+            div.className = "line-row";
+            div.setAttribute("onclick", `selectLine(this, '${num}')`);
+            div.innerHTML = `<span class="line-number">${num}</span><span class="line-payout">+₦5,000</span>`;
+            wrapper.appendChild(div);
+        });
+
+        document.getElementById("callStatusMessage").textContent = "Select a line above to queue a connection";
+        document.getElementById("callStatusSubtext").textContent = "Tap any regional channel block";
+    }
+
+    document.getElementById("activateProfileBtn").addEventListener("click", function() {
+        const chosenPlan = (localUserData && localUserData.planName) ? localUserData.planName : "Nextel Royal Plan";
+        const customFeeText = chosenPlan === "Nextel Lite" ? "⚡ One-Time Fee: ₦10,500" : "⚡ One-Time Fee: ₦17,500";
+
         Swal.fire({
             title: 'Activate your profile',
             html: `
-                Your account profile is currently locked. You must activate your workspace profile setup before you can start making premium line calls, saving contacts, or running withdrawals.
-                <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px; margin-top: 15px; text-align: left;">
-                    <strong style="color: var(--gold);">⚡ One-Time Activation Fee</strong><br>
-                    Unlock full system capabilities instantly.
+                <div>
+                    Your account profile is currently locked. You must activate your workspace profile setup before you can start making premium line calls, adding your local bank details, or running withdrawals.
+                    <div class="nextel-pricing-box">
+                        <strong>Selected Pack:</strong> ${chosenPlan}<br>
+                        <strong>${customFeeText}</strong>
+                    </div>
                 </div>
             `,
             showCancelButton: true,
@@ -657,23 +898,19 @@
             cancelButtonText: 'Go Back',
             customClass: {
                 popup: 'nextel-alert-theme',
-                confirmButton: 'swal-btn-action',
+                title: 'nextel-alert-title',
+                htmlContainer: 'nextel-alert-body',
+                confirmButton: 'swal-btn-activate',
                 cancelButton: 'swal-btn-cancel'
             },
             buttonsStyling: false
         }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "payment.html";
-            }
+            if (result.isConfirmed) { window.location.href = "payment.html"; }
         });
-    }
+    });
 
-    function scrollToSection(id) {
-        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // Initialize list on load
-    renderSponsoredCalls();
+    function triggerLockedNotice() { document.getElementById("activateProfileBtn").click(); }
+    switchLines('usa');
 </script>
 
 </body>
