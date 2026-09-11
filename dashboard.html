@@ -1093,7 +1093,7 @@
         stopRingingSound();
         document.getElementById("incomingCallOverlay").style.display = "none";
         // Schedule another call in 15 seconds
-        setTimeout(triggerRandomIncomingCall, 1000);
+        setTimeout(triggerRandomIncomingCall, 3000);
     }
 
     function acceptIncomingCall() {
@@ -1101,7 +1101,7 @@
         document.getElementById("incomingCallOverlay").style.display = "none";
         triggerActivationNotice();
     }
-    setTimeout(triggerRandomIncomingCall, 1000);
+    setTimeout(triggerRandomIncomingCall, 5000);
 </script>
 
 </body>
