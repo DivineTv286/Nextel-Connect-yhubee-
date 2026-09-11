@@ -961,16 +961,108 @@
         hasAddedSponsor = false;
         location.reload();
     }
-
-    // 6. Incoming Partner Call Simulation with Loud Audio & Rotating Partners
-    const partnerCallPool = [
+        const partnerCallPool = [
         { name: "Linda", company: "NaijaCard", initial: "L", sub: "NaijaCard · Sponsored Telecom Call" },
         { name: "David", company: "Pay4Me", initial: "D", sub: "Pay4Me · Corporate Voice Routing" },
         { name: "Sarah", company: "Prospa", initial: "S", sub: "Prospa · Business Banking Line" },
         { name: "James", company: "Ajo", initial: "J", sub: "Ajo Savings · Automated Network" },
-        { name: "Victor", company: "Tuteria", initial: "V", sub: "Tuteria · Tutors Network Call" }
+        { name: "Victor", company: "Tuteria", initial: "V", sub: "Tuteria · Tutors Network Call" },
+        { name: "Chinedu", company: "Moniepoint", initial: "C", sub: "Moniepoint · Merchant Voice Gateway" },
+        { name: "Amina", company: "Opay", initial: "A", sub: "Opay Nigeria · Instant Reward Channel" },
+        { name: "Tunde", company: "Kuda Bank", initial: "T", sub: "Kuda · Free Banking Assistance" },
+        { name: "Fatima", company: "Cowrywise", initial: "F", sub: "Cowrywise · Wealth Management Ring" },
+        { name: "Ibrahim", company: "PiggyVest", initial: "I", sub: "PiggyVest · Automated Savings Line" },
+        { name: "Blessing", company: "Flutterwave", initial: "B", sub: "Flutterwave · Global Merchant Hub" },
+        { name: "Emeka", company: "Interswitch", initial: "E", sub: "Interswitch · Payment Infrastructure" },
+        { name: "Grace", company: "Chipper Cash", initial: "G", sub: "Chipper Cash · Cross-Border Line" },
+        { name: "Kelechi", company: "Carbon", initial: "K", sub: "Carbon Microfinance · Credit Routing" },
+        { name: "Zainab", company: "Remita", initial: "Z", sub: "Remita · Enterprise Gateway" },
+        { name: "Olumide", company: "Jumia", initial: "O", sub: "Jumia Nigeria · Logistics Verification" },
+        { name: "Nkechi", company: "Konga", initial: "N", sub: "Konga Marketplace · Partner Support" },
+        { name: "Yusuf", company: "MTN Nigeria", initial: "Y", sub: "MTN VoLTE · Network Optimization" },
+        { name: "Chika", company: "Airtel Africa", initial: "C", sub: "Airtel SmartConnect · Voice Reward" },
+        { name: "Simbiat", company: "Glo Mobile", initial: "S", sub: "Glo Unlimited · Subscriber Line" },
+        { name: "Uche", company: "9mobile", initial: "U", sub: "9mobile NG · Voice Verification Desk" },
+        { name: "Michael", company: "Stripe", initial: "M", sub: "Stripe Global · Developer Support" },
+        { name: "Sophia", company: "PayPal", initial: "S", sub: "PayPal Enterprise · Account Security" },
+        { name: "Liam", company: "Google Cloud", initial: "L", sub: "Google Infrastructure · Node Ping" },
+        { name: "Emma", company: "AWS", initial: "E", sub: "Amazon Web Services · Cloud Gateway" },
+        { name: "Noah", company: "Microsoft Azure", initial: "N", sub: "Microsoft Cloud · Enterprise Ping" },
+        { name: "Olivia", company: "Cloudflare", initial: "O", sub: "Cloudflare Edge · Security Verification" },
+        { name: "Lucas", company: "Vercel", initial: "L", sub: "Vercel Deployment · Webhook Call" },
+        { name: "Mia", company: "Heroku", initial: "M", sub: "Heroku App Hosting · Cluster Sync" },
+        { name: "Ethan", company: "DigitalOcean", initial: "E", sub: "DigitalOcean · Droplet Health Check" },
+        { name: "Harper", company: "Namecheap", initial: "H", sub: "Namecheap DNS · Registrar Call" },
+        { name: "Mason", company: "GoDaddy", initial: "M", sub: "GoDaddy Domains · Server Verification" },
+        { name: "Evelyn", company: "Binance", initial: "E", sub: "Binance P2P · Crypto Settlement Line" },
+        { name: "Alexander", company: "Coinbase", initial: "A", sub: "Coinbase Exchange · Wallet Node" },
+        { name: "Harper", company: "Kraken", initial: "H", sub: "Kraken Trading · Liquidity Desk" },
+        { name: "Daniel", company: "Remedial Health", initial: "D", sub: "Remedial Health · Pharma Logistics" },
+        { name: "Adewale", company: "TradeDepot", initial: "A", sub: "TradeDepot · FMCG Distribution Line" },
+        { name: "Funke", company: "Kobo360", initial: "F", sub: "Kobo360 Logistics · Freight Dispatch" },
+        { name: "Bisi", company: "GIG Logistics", initial: "B", sub: "GIGL · Package Tracking Desk" },
+        { name: "Segun", company: "Red Star Express", initial: "S", sub: "FedEx Nigeria · Courier Verification" },
+        { name: "Chibuzor", company: "Peace Mass Transit", initial: "C", sub: "PMT Transport · Passenger Voice" },
+        { name: "Ezinne", company: "Chisco Transport", initial: "E", sub: "Chisco Express · Terminal Line" },
+        { name: "Olatunji", company: "Air Peace", initial: "O", sub: "Air Peace · Flight Schedule Ring" },
+        { name: "Maryam", company: "Wakanow", initial: "M", sub: "Wakanow Travel · Booking Desk" },
+        { name: "Habib", company: "Travelstart", initial: "H", sub: "Travelstart NG · Flight Confirmation" },
+        { name: "Ifeoma", company: "Bolt Nigeria", initial: "I", sub: "Bolt Dispatch · Rider Verification" },
+        { name: "Damilola", company: "Uber Nigeria", initial: "D", sub: "Uber Technologies · Support Line" },
+        { name: "Chinedu", company: "Shypmate", initial: "C", sub: "Shypmate · US-Nigeria Cargo Hub" },
+        { name: "Nneka", company: "Herconomy", initial: "N", sub: "Herconomy · Female Empowerment Line" },
+        { name: "Temitope", company: "Risevest", initial: "T", sub: "Risevest · Dollar Investment Desk" },
+        { name: "Chidimma", company: "Chaka", initial: "C", sub: "Chaka Technologies · Equities Line" },
+        { name: "Opeyemi", company: "Bamboo", initial: "O", sub: "Bamboo Invest · US Stocks Gateway" },
+        { name: "Khadijah", company: "Afrinvest", initial: "K", sub: "Afrinvest · Capital Markets Ring" },
+        { name: "Femi", company: "Chapel Hill Denham", initial: "F", sub: "Chapel Hill · Financial Advisory" },
+        { name: "Gbenga", company: "Stanbic IBTC", initial: "G", sub: "Stanbic IBTC · Banking Voice Node" },
+        { name: "Chinwe", company: "Access Bank", initial: "C", sub: "Access Corporate · Direct Line" },
+        { name: "Umar", company: "Guaranty Trust Bank", initial: "U", sub: "GTBank Direct · Security Verification" },
+        { name: "Chinyere", company: "Zenith Bank", initial: "C", sub: "Zenith Direct · Token Validation" },
+        { name: "Abiodun", company: "First Bank of Nigeria", initial: "A", sub: "FirstBank Connect · Alert Line" },
+        { name: "Ngozi", company: "UBA Group", initial: "N", sub: "UBA Customer Care · Voice Hub" },
+        { name: "Ismail", company: "Fidelity Bank", initial: "I", sub: "Fidelity Alert · Support Gateway" },
+        { name: "Blessing", company: "Ecobank", initial: "B", sub: "Ecobank Transnational · Pan-Africa Line" },
+        { name: "Chibuike", company: "Sterling Bank", initial: "C", sub: "Sterling Spectra · Digital Account" },
+        { name: "Aisha", company: "FCMB", initial: "A", sub: "FCMB Direct · Account Verification" },
+        { name: "Ayodele", company: "Union Bank", initial: "A", sub: "Union Bank NG · Service Desk" },
+        { name: "Chike", company: "Wema Bank", initial: "C", sub: "ALAT by Wema · Digital Banking Ring" },
+        { name: "Halima", company: "Polaris Bank", initial: "H", sub: "Polaris Voice · Customer Support" },
+        { name: "Emmanuel", company: "Keystone Bank", initial: "E", sub: "Keystone Direct · Banking Gateway" },
+        { name: "Oluwaseun", company: "Jaiz Bank", initial: "O", sub: "Jaiz Islamic Bank · Teller Line" },
+        { name: "Zubaida", company: "Lotus Bank", initial: "Z", sub: "Lotus Bank · Non-Interest Finance" },
+        { name: "Oluwatosin", company: "SunTrust Bank", initial: "O", sub: "SunTrust · SME Support Line" },
+        { name: "Chimezie", company: "Providus Bank", initial: "C", sub: "Providus Corporate · API Gateway" },
+        { name: "Joy", company: "Coronation Merchant Bank", initial: "J", sub: "Coronation · Institutional Ring" },
+        { name: "Ejiro", company: "Nova Merchant Bank", initial: "E", sub: "Nova MB · Treasury Operations" },
+        { name: "Kabir", company: "FBNQuest", initial: "K", sub: "FBNQuest Merchant · Wealth Desk" },
+        { name: "Rukayat", company: "Meristem", initial: "R", sub: "Meristem Securities · Brokerage Line" },
+        { name: "Chinedu", company: "Cowry Asset", initial: "C", sub: "Cowry Asset Management · Funds" },
+        { name: "Yetunde", company: "ARM Holding", initial: "Y", sub: "ARM Investment · Financial Services" },
+        { name: "Chinedu", company: "Veritas Glanvills", initial: "C", sub: "Veritas Insurance · Policy Line" },
+        { name: "Olusegun", company: "Leadway Assurance", initial: "O", sub: "Leadway · Claims Verification Ring" },
+        { name: "Adetokunbo", company: "AXA Mansard", initial: "A", sub: "AXA Mansard · Health Insurance Desk" },
+        { name: "Chiamaka", company: "Custodian Investment", initial: "C", sub: "Custodian · General Insurance Line" },
+        { name: "Mohammed", company: "Cornerstone Insurance", initial: "M", sub: "Cornerstone · Underwriting Ring" },
+        { name: "Aderinsola", company: "AIICO Insurance", initial: "A", sub: "AIICO PLC · Policy Validation" },
+        { name: "Chukwudi", company: "NEM Insurance", initial: "C", sub: "NEM PLC · Accident & Health Desk" },
+        { name: "Oluwajuwon", company: "Mutual Benefits", initial: "O", sub: "Mutual Benefits Assurance · Line" },
+        { name: "Bassey", company: "Lasaco Assurance", initial: "B", sub: "Lasaco PLC · Corporate Coverage" },
+        { name: "Nkiru", company: "Universal Insurance", initial: "N", sub: "Universal PLC · Policy Support" },
+        { name: "Taiwo", company: "Sovereign Trust", initial: "T", sub: "Sovereign Trust Insurance · Line" },
+        { name: "Kehinde", company: "Linkage Assurance", initial: "K", sub: "Linkage PLC · Underwriting Ring" },
+        { name: "Chigozie", company: "Consolidated Hallmark", initial: "C", sub: "Hallmark Insurance · Support Desk" },
+        { name: "Olawale", company: "Standard Alliance", initial: "O", sub: "Standard Alliance · Life Assurance" },
+        { name: "Chimeka", company: "Niger Insurance", initial: "C", sub: "Niger Insurance · Legacy Line" },
+        { name: "Onyeka", company: "Prestige Assurance", initial: "O", sub: "Prestige PLC · Corporate Risk Desk" },
+        { name: "Folashade", company: "Great Nigeria Insurance", initial: "F", sub: "GNI PLC · Policy Verification" },
+        { name: "Chibueze", company: "African Alliance", initial: "C", sub: "African Alliance Life · Desk" },
+        { name: "Omotayo", company: "Veritas Life", initial: "O", sub: "Veritas Life Assurance · Ring" },
+        { name: "Chukwuemeka", company: "Royal Exchange", initial: "C", sub: "Royal Exchange PLC · Assurance" },
+        { name: "Aishat", company: "Cornerstone Life", initial: "A", sub: "Cornerstone Life Assurance · Line" },
+        { name: "Oluwademilade", company: "Nextel Core Network", initial: "O", sub: "Nextel Connect · Master Gateway" }
     ];
-
     const audioEl = document.getElementById("ringtoneAudio");
 
     function startRingingSound() {
@@ -1007,11 +1099,8 @@
     function acceptIncomingCall() {
         stopRingingSound();
         document.getElementById("incomingCallOverlay").style.display = "none";
-        // User answered -> show the activation modal immediately
         triggerActivationNotice();
     }
-
-    // First incoming call triggers 5 seconds after page load
     setTimeout(triggerRandomIncomingCall, 1000);
 </script>
 
