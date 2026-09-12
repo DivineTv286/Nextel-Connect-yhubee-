@@ -668,7 +668,6 @@
         </div>
 
         <div id="sponsoredCallsList">
-            <!-- Dynamically populated or static rows matching screenshots -->
             <div class="sponsored-call-row">
                 <div class="d-flex align-items-center">
                     <div class="call-avatar">L</div>
@@ -781,7 +780,7 @@
 <script>
     // 1. Username Logic & Session Management
     let localUserData = null;
-    let userNameToDisplay = "Samsung"; // Default fallback matching your screenshot
+    let userNameToDisplay = "Samsung"; 
     try {
         const rawData = sessionStorage.getItem("nxt_user");
         if (rawData) {
@@ -800,7 +799,6 @@
     let isBalanceMasked = false;
     const actualBalanceValue = "₦10,000";
     
-    // Check local storage on load so state remains even after refresh
     if (localStorage.getItem("nxt_balance_masked") === "true") {
         isBalanceMasked = true;
         document.getElementById("walletBalanceDisplay").textContent = "₦••••••";
@@ -824,11 +822,11 @@
         }
     }
 
-    // 3. Countdown Activation Timer Logic (loops/restarts automatically when hitting zero)
-    let totalSecondsRemaining = 4 * 86400 + 19 * 3600 + 12 * 60 + 53; // 4d 19h 12m 53s
+    // 3. Countdown Activation Timer Logic
+    let totalSecondsRemaining = 4 * 86400 + 19 * 3600 + 12 * 60 + 53; 
     function updateCountdownTimer() {
         if (totalSecondsRemaining <= 0) {
-            totalSecondsRemaining = 5 * 86400; // Reset back to 5 days fully
+            totalSecondsRemaining = 5 * 86400; 
         }
         totalSecondsRemaining--;
 
@@ -842,25 +840,33 @@
     }
     setInterval(updateCountdownTimer, 1000);
 
-    // 4. Activation Modal Trigger (SweetAlert2)
+    // 4. Activation Modal Trigger (Updated with Royal & Diamond eSIM Plans)
     function triggerActivationNotice() {
-        // Stop any ringing if modal opens from a call
         stopRingingSound();
         document.getElementById("incomingCallOverlay").style.display = "none";
+        localStorage.removeItem("nxt_incoming_call_active");
 
         Swal.fire({
-            title: 'Activate Your eSIM',
+            title: 'Activate Nextel eSIM Plan',
             html: `
                 <div style="text-align:left;">
-                    Your account profile is currently inactive. You must activate your subscription to unlock withdrawals, airtime purchases, and start earning from calls and tasks.
-                    <div style="background:#f4f1ea; border:1px solid rgba(0,0,0,0.08); border-radius:12px; padding:12px; margin-top:14px;">
-                        <strong>One-Time Activation Fee:</strong> ₦10,500 / ₦17,500<br>
-                        <span style="font-size:0.8rem; color:#666;">Instant network allocation &amp; banking gateway connection.</span>
+                    Your account profile is currently inactive. Select an activation tier to unlock full network routing, withdrawals, and task earnings:
+                    <div style="display:flex; flex-direction:column; gap:10px; margin-top:14px;">
+                        <label style="background:#f4f1ea; border:2px solid var(--green); border-radius:12px; padding:12px; cursor:pointer; display:block;">
+                            <input type="radio" name="esim_tier" value="Royal" checked style="margin-right:8px;">
+                            <strong>Nextel Royal eSIM</strong> — ₦10,500<br>
+                            <span style="font-size:0.75rem; color:#555; padding-left:20px;">Standard VoLTE &amp; 2x Daily Task Boost</span>
+                        </label>
+                        <label style="background:#f4f1ea; border:1px solid rgba(0,0,0,0.1); border-radius:12px; padding:12px; cursor:pointer; display:block;">
+                            <input type="radio" name="esim_tier" value="Diamond" style="margin-right:8px;">
+                            <strong>Nextel Diamond eSIM</strong> — ₦17,500<br>
+                            <span style="font-size:0.75rem; color:#555; padding-left:20px;">Priority Node, 5x Earnings &amp; VIP Support</span>
+                        </label>
                     </div>
                 </div>
             `,
             showCancelButton: true,
-            confirmButtonText: 'Activate Now',
+            confirmButtonText: 'Proceed to Payment',
             cancelButtonText: 'Go Back',
             customClass: {
                 popup: 'nextel-alert-theme',
@@ -872,17 +878,16 @@
             buttonsStyling: false
         }).then((result) => {
             if (result.isConfirmed) { 
+                const selectedTier = document.querySelector('input[name="esim_tier"]:checked').value;
+                localStorage.setItem("nxt_selected_plan", selectedTier);
                 window.location.href = "payment.html"; 
             }
         });
     }
 
-    // 5. Save Sponsors Modal Logic (Can only add one sponsor permanently without resetting in 24h)
+    // 5. Save Sponsors Modal Logic
     let hasAddedSponsor = localStorage.getItem("nxt_has_sponsor") === "true";
-    
-    if (hasAddedSponsor) {
-        renderSavedSponsorState();
-    }
+    if (hasAddedSponsor) { renderSavedSponsorState(); }
 
     function openAddSponsorModal() {
         if (hasAddedSponsor) {
@@ -1068,7 +1073,7 @@
     function startRingingSound() {
         audioEl.currentTime = 0;
         audioEl.play().catch(err => {
-            console.log("Audio autoplay prevented by browser policy until user interaction:", err);
+            console.log("Audio autoplay restricted until user interaction:", err);
         });
     }
 
@@ -1077,31 +1082,58 @@
         audioEl.currentTime = 0;
     }
 
-    // Trigger incoming call popup randomly after 4 to 8 seconds on the page
-    function triggerRandomIncomingCall() {
-        const randomPartner = partnerCallPool[Math.floor(Math.random() * partnerCallPool.length)];
-        
-        document.getElementById("incomingCallerName").innerHTML = `${randomPartner.name} <span style="font-size:0.9rem; color:#4ade80; font-weight:600;"><i class="fas fa-check-circle"></i> Verified</span>`;
-        document.getElementById("incomingCallerSub").textContent = randomPartner.sub;
-        document.getElementById("incomingCallerAvatar").textContent = randomPartner.initial;
+    function showIncomingCallModal(callerObj) {
+        document.getElementById("incomingCallerName").innerHTML = `${callerObj.name} <span style="font-size:0.9rem; color:#4ade80; font-weight:600;"><i class="fas fa-check-circle"></i> Verified</span>`;
+        document.getElementById("incomingCallerSub").textContent = callerObj.sub;
+        document.getElementById("incomingCallerAvatar").textContent = callerObj.initial;
 
         document.getElementById("incomingCallOverlay").style.display = "flex";
+        localStorage.setItem("nxt_incoming_call_active", "true");
         startRingingSound();
     }
 
     function dismissIncomingCall() {
         stopRingingSound();
         document.getElementById("incomingCallOverlay").style.display = "none";
-        // Schedule another call in 15 seconds
-        setTimeout(triggerRandomIncomingCall, 3000);
+        localStorage.removeItem("nxt_incoming_call_active");
+        
+        // Schedule next call in 15 seconds
+        setTimeout(triggerRandomIncomingCall, 15000);
     }
 
     function acceptIncomingCall() {
         stopRingingSound();
         document.getElementById("incomingCallOverlay").style.display = "none";
+        localStorage.removeItem("nxt_incoming_call_active");
         triggerActivationNotice();
     }
-    setTimeout(triggerRandomIncomingCall, 5000);
+
+    function triggerRandomIncomingCall() {
+        const randomPartner = partnerCallPool[Math.floor(Math.random() * partnerCallPool.length)];
+        localStorage.setItem("nxt_current_caller", JSON.stringify(randomPartner));
+        showIncomingCallModal(randomPartner);
+    }
+
+    // Check visibility or restore state if user returns from another page within the same app
+    document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) {
+            // User returned to tab/page
+            if (localStorage.getItem("nxt_incoming_call_active") === "true") {
+                const savedCaller = JSON.parse(localStorage.getItem("nxt_current_caller") || JSON.stringify(partnerCallPool[0]));
+                showIncomingCallModal(savedCaller);
+            }
+        }
+    });
+
+    // Initial trigger check on load
+    setTimeout(() => {
+        if (localStorage.getItem("nxt_incoming_call_active") === "true") {
+            const savedCaller = JSON.parse(localStorage.getItem("nxt_current_caller") || JSON.stringify(partnerCallPool[0]));
+            showIncomingCallModal(savedCaller);
+        } else {
+            triggerRandomIncomingCall();
+        }
+    }, 4000);
 </script>
 
 </body>
